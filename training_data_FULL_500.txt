@@ -1,0 +1,3500 @@
+Question:
+What is the output of: x=[1,2,3]; y=x; y.append(4); print(x)?
+Reasoning:
+Lists are mutable. y=x makes both point to the same object. Appending to y modifies the shared list.
+Answer:
+[1, 2, 3, 4]
+
+Question:
+What does list(range(10))[::3] return?
+Reasoning:
+range(10)=[0..9]. Slice [::3] picks every 3rd: indices 0,3,6,9.
+Answer:
+[0, 3, 6, 9]
+
+Question:
+Why does 0.1+0.2==0.3 return False?
+Reasoning:
+IEEE 754 binary floats cannot exactly represent 0.1 or 0.2. Their sum is 0.30000000000000004.
+Answer:
+False. Use math.isclose(0.1+0.2, 0.3) instead.
+
+Question:
+Time complexity of inserting at the beginning of a Python list?
+Reasoning:
+Python lists are dynamic arrays. Inserting at index 0 shifts all n elements right.
+Answer:
+O(n)
+
+Question:
+How does *args differ from **kwargs?
+Reasoning:
+*args collects extra positional arguments into a tuple. **kwargs collects extra keyword arguments into a dict.
+Answer:
+*args = tuple of positional extras; **kwargs = dict of keyword extras.
+
+Question:
+What does {}.get('key','default') return?
+Reasoning:
+dict.get returns value if key found, else the default. The dict is empty so key is absent.
+Answer:
+'default'
+
+Question:
+Explain deepcopy vs copy for nested lists.
+Reasoning:
+copy.copy: new outer container, shared inner references. copy.deepcopy: recursively duplicates all nested objects.
+Answer:
+copy = shared inners; deepcopy = fully independent at all depths.
+
+Question:
+What is a Python generator and how does it save memory?
+Reasoning:
+A generator uses yield to produce values lazily one at a time, keeping only current state in memory.
+Answer:
+Yields values on demand; O(1) memory instead of storing the whole sequence.
+
+Question:
+What does print(type(lambda x: x)) output?
+Reasoning:
+A lambda creates a function object. type() on it returns <class 'function'>.
+Answer:
+<class 'function'>
+
+Question:
+What does sorted([3,1,2], key=lambda x:-x) return?
+Reasoning:
+Key negates each value: [-3,-1,-2]. Ascending sort gives [-3,-2,-1], corresponding to [3,2,1].
+Answer:
+[3, 2, 1]
+
+Question:
+What is the difference between is and == in Python?
+Reasoning:
+== compares values. is checks if both variables reference the exact same object in memory.
+Answer:
+== checks value equality; is checks object identity.
+
+Question:
+Why is def f(lst=[]) dangerous?
+Reasoning:
+Default arguments are evaluated once at definition. The list is shared and persists mutations across calls.
+Answer:
+Use def f(lst=None): if lst is None: lst = [] instead.
+
+Question:
+Big-O of in operator on list vs set?
+Reasoning:
+Lists scan linearly: O(n). Sets use hash tables: O(1) average.
+Answer:
+List: O(n); Set: O(1) average.
+
+Question:
+What does enumerate(['a','b','c'], start=1) yield?
+Reasoning:
+enumerate yields (index,value) pairs starting at 1.
+Answer:
+(1,'a'),(2,'b'),(3,'c')
+
+Question:
+Output of bool([]) and bool([0])?
+Reasoning:
+bool([]) is False. Short-circuit and returns False without evaluating right side.
+Answer:
+False
+
+Question:
+Explain the GIL and its effect on multithreading.
+Reasoning:
+GIL allows only one thread to execute Python bytecode at a time. Prevents CPU parallelism in threads. I/O-bound tasks still benefit since GIL releases during I/O.
+Answer:
+GIL blocks CPU-bound thread parallelism. Use multiprocessing for CPU tasks.
+
+Question:
+Output of 'hello'[1:4]?
+Reasoning:
+Slice [1:4] = indices 1,2,3 = 'e','l','l'.
+Answer:
+'ell'
+
+Question:
+What does zip([1,2,3],[4,5]) return?
+Reasoning:
+zip stops at shortest iterable. Pairs: (1,4),(2,5). Element 3 is unpaired.
+Answer:
+[(1,4),(2,5)]
+
+Question:
+What is a decorator in Python?
+Reasoning:
+A decorator takes a function, wraps it to add behavior, returns the new function. @deco is sugar for func=deco(func).
+Answer:
+A callable that wraps a function to extend its behavior without modifying its code.
+
+Question:
+Difference between __str__ and __repr__?
+Reasoning:
+__str__: user-friendly, used by print(). __repr__: unambiguous dev representation, used in REPL. __repr__ is the fallback.
+Answer:
+__str__ = user-friendly; __repr__ = unambiguous dev representation, used as fallback.
+
+Question:
+How to find all duplicates in a list efficiently?
+Reasoning:
+Use a set to track seen elements. If element already in seen, it is a duplicate. O(n) time and space.
+Answer:
+seen=set(); [x for x in lst if x in seen or seen.add(x) is not None] — use a seen set.
+
+Question:
+What does collections.Counter('aabbcc') return?
+Reasoning:
+Counter counts occurrences: a=2, b=2, c=2.
+Answer:
+Counter({'a':2,'b':2,'c':2})
+
+Question:
+What is the difference between a list and a tuple?
+Reasoning:
+Lists are mutable; elements can be changed. Tuples are immutable. Tuples are hashable and can be dict keys.
+Answer:
+List: mutable, unhashable. Tuple: immutable, hashable.
+
+Question:
+What does any([False,0,'',None,1]) return?
+Reasoning:
+any() is True if at least one element is truthy. 1 is truthy.
+Answer:
+True
+
+Question:
+Output of list(map(str,[1,2,3]))?
+Reasoning:
+map applies str() to each element. list() materializes the iterator.
+Answer:
+['1','2','3']
+
+Question:
+Explain Python's with statement.
+Reasoning:
+with calls __enter__ on entry and guarantees __exit__ runs on exit, even during exceptions. Used for resource management.
+Answer:
+Ensures setup (__enter__) and teardown (__exit__) reliably, even on exceptions.
+
+Question:
+Time complexity of Python dict access?
+Reasoning:
+Dicts use hash tables. Average O(1); worst case O(n) on hash collisions.
+Answer:
+O(1) average; O(n) worst case.
+
+Question:
+What does [x**2 for x in range(5) if x%2==0] produce?
+Reasoning:
+Even numbers in range(5): 0,2,4. Squares: 0,4,16.
+Answer:
+[0,4,16]
+
+Question:
+Difference between append and extend on a list?
+Reasoning:
+append(x) adds x as one element (even if x is a list). extend(iter) adds each element from iter individually.
+Answer:
+append adds one item; extend unpacks and adds all items.
+
+Question:
+Why might == return True for two different dict objects?
+Reasoning:
+== compares content (same keys and values), not memory addresses. Two separate dicts with identical contents are equal.
+Answer:
+== checks content equality, not identity; same key-value pairs → True.
+
+Question:
+Output of not not 0?
+Reasoning:
+not 0 = True; not True = False.
+Answer:
+False
+
+Question:
+What does dict(zip(['a','b'],[1,2])) return?
+Reasoning:
+zip creates pairs: ('a',1),('b',2). dict() converts them to a mapping.
+Answer:
+{'a':1,'b':2}
+
+Question:
+Difference between classmethod and staticmethod?
+Reasoning:
+classmethod receives cls (the class) as first arg. staticmethod receives no implicit arg — just a namespaced function.
+Answer:
+classmethod gets cls; staticmethod gets no implicit first argument.
+
+Question:
+Does Python optimize tail recursion?
+Reasoning:
+CPython does not perform tail call optimization. Deep recursion raises RecursionError.
+Answer:
+No. Use iteration or increase sys.setrecursionlimit carefully.
+
+Question:
+What does sorted({'b':2,'a':1,'c':3}) return?
+Reasoning:
+Sorting a dict iterates over keys. 'a','b','c' sorted alphabetically.
+Answer:
+['a','b','c']
+
+Question:
+What does (1,2,3).count(2) return?
+Reasoning:
+count() returns occurrences of value. 2 appears once.
+Answer:
+1
+
+Question:
+Difference between filter() and list comprehension?
+Reasoning:
+filter() is a lazy iterator. List comprehension eagerly builds a list. Both filter elements.
+Answer:
+filter() is lazy; list comprehension is eager.
+
+Question:
+Purpose of __init__ in a Python class?
+Reasoning:
+__init__ initializes instance attributes after the object is created by __new__.
+Answer:
+Initializes instance attributes after creation.
+
+Question:
+What does [1,2,3].pop(0) do?
+Reasoning:
+pop(0) removes and returns element at index 0. Shifts all remaining elements: O(n).
+Answer:
+Returns 1; list becomes [2,3]. O(n) operation.
+
+Question:
+What does set([1,1,2,3,3]) produce?
+Reasoning:
+Sets store only unique elements. Duplicates are removed.
+Answer:
+{1,2,3}
+
+Question:
+Difference between // and / in Python 3?
+Reasoning:
+/ is true division (always float). // is floor division (rounds down to integer).
+Answer:
+/ returns float; // returns floor-divided integer.
+
+Question:
+How does Python's GC handle reference cycles?
+Reasoning:
+Reference counting alone cannot free cycles. The cyclic GC (gc module) periodically detects and collects them.
+Answer:
+Cyclic GC supplements reference counting to handle circular references.
+
+Question:
+Output of 'abc' * 3?
+Reasoning:
+* on strings repeats the string.
+Answer:
+'abcabcabc'
+
+Question:
+What does os.path.join('home','user','file.txt') return on Unix?
+Reasoning:
+os.path.join concatenates with OS separator. Unix uses '/'.
+Answer:
+'home/user/file.txt'
+
+Question:
+Difference between break and continue?
+Reasoning:
+break exits the entire loop. continue skips the rest of current iteration.
+Answer:
+break = exit loop; continue = skip to next iteration.
+
+Question:
+What does isinstance(True, int) return?
+Reasoning:
+bool is a subclass of int. isinstance includes subclass checks. True is both bool and int.
+Answer:
+True
+
+Question:
+What does yield from do in a generator?
+Reasoning:
+yield from delegates iteration to a sub-generator, forwarding each value and also send()/throw() calls.
+Answer:
+Delegates to sub-generator, yielding each value and forwarding send/throw.
+
+Question:
+Time complexity of Python's list.sort()?
+Reasoning:
+Python uses Timsort. Worst case O(n log n); best case O(n) for already-sorted input.
+Answer:
+O(n log n) worst; O(n) best (Timsort).
+
+Question:
+What does str.split() do vs str.split(' ')?
+Reasoning:
+split() splits on any whitespace and drops empty strings. split(' ') splits on literal space only, preserving empty strings.
+Answer:
+split() = any whitespace, drops empties. split(' ') = literal space, keeps empties.
+
+Question:
+What does list(zip(*[[1,2],[3,4],[5,6]])) return?
+Reasoning:
+* unpacks the outer list. zip([1,2],[3,4],[5,6]) pairs first elements (1,3,5) and seconds (2,4,6).
+Answer:
+[(1,3,5),(2,4,6)]
+
+Question:
+Why does dict preserve insertion order in Python 3.7+?
+Reasoning:
+Python 3.7+ language spec guarantees insertion order (CPython had it from 3.6).
+Answer:
+Python 3.7+ guarantees dict insertion order by spec.
+
+Question:
+Output of divmod(17,5)?
+Reasoning:
+divmod returns (quotient, remainder). 17//5=3, 17%5=2.
+Answer:
+(3,2)
+
+Question:
+Explain __slots__ in Python.
+Reasoning:
+Defines __slots__=['x','y'] replaces per-instance __dict__ with fixed attribute slots, reducing memory usage.
+Answer:
+__slots__ eliminates per-instance __dict__, reducing memory overhead.
+
+Question:
+Output of [1,2]+[3,4]?
+Reasoning:
++ on lists concatenates into a new list.
+Answer:
+[1,2,3,4]
+
+Question:
+What does frozenset offer that set does not?
+Reasoning:
+frozenset is immutable and hashable. Can be used as dict key or set element.
+Answer:
+Immutability and hashability.
+
+Question:
+Output of None == False?
+Reasoning:
+None and False are different values and types. == checks equality.
+Answer:
+False
+
+Question:
+What does itertools.chain([1,2],[3,4]) return?
+Reasoning:
+chain links iterables into a single lazy iterator: 1,2,3,4.
+Answer:
+An iterator yielding 1,2,3,4.
+
+Question:
+Difference between re.match and re.search?
+Reasoning:
+re.match matches only at start. re.search scans anywhere in the string.
+Answer:
+match: start of string only. search: anywhere.
+
+Question:
+Output of 2 ** 10?
+Reasoning:
+** is exponentiation. 2^10 = 1024.
+Answer:
+1024
+
+Question:
+Why is string concatenation in a loop inefficient?
+Reasoning:
+Strings are immutable. Each += copies all prior content: O(n) per step, O(n^2) total. Use ''.join(lst).
+Answer:
+O(n^2) total. Use ''.join(list_of_strings) for O(n).
+
+Question:
+What does collections.defaultdict(list) do?
+Reasoning:
+defaultdict auto-creates a default value using a factory when a missing key is accessed. Here, factory is list.
+Answer:
+Dict that auto-initializes missing keys with empty list.
+
+Question:
+Output of abs(-7.5)?
+Reasoning:
+abs() returns the absolute value.
+Answer:
+7.5
+
+Question:
+Explain Python's Method Resolution Order (MRO).
+Reasoning:
+MRO defines class search order in multiple inheritance using C3 linearization. Inspect via ClassName.__mro__.
+Answer:
+C3 linearization order for method lookup; inspect with ClassName.__mro__.
+
+Question:
+What does list(reversed([1,2,3,4])) return?
+Reasoning:
+reversed() gives a reverse iterator. list() materializes: 4,3,2,1.
+Answer:
+[4,3,2,1]
+
+Question:
+What does functools.reduce(lambda a,b:a+b,[1,2,3,4]) return?
+Reasoning:
+reduce applies cumulatively: ((1+2)+3)+4=10.
+Answer:
+10
+
+Question:
+Purpose of __len__ in a class?
+Reasoning:
+__len__ enables len(obj) on custom objects. Python calls obj.__len__() internally.
+Answer:
+Enables len() on custom objects.
+
+Question:
+What does str.strip() do?
+Reasoning:
+Removes leading and trailing whitespace from a string.
+Answer:
+Removes leading and trailing whitespace.
+
+Question:
+Output of [0]*3?
+Reasoning:
+* on a list repeats its contents.
+Answer:
+[0,0,0]
+
+Question:
+What do heapq.heappush and heapq.heappop do?
+Reasoning:
+heapq is a min-heap. heappush adds maintaining heap order. heappop removes and returns smallest. Both O(log n).
+Answer:
+heappush: add to min-heap; heappop: remove minimum. Both O(log n).
+
+Question:
+Result of round(2.5) in Python 3?
+Reasoning:
+Python 3 uses banker's rounding (round half to even). 2.5 → 2 (nearest even).
+Answer:
+2 (rounds to nearest even).
+
+Question:
+What does dict.setdefault(key, default) do?
+Reasoning:
+Returns value if key exists; otherwise inserts key=default and returns default. Modifies the dict.
+Answer:
+Returns value if key exists; inserts and returns default if key is missing.
+
+Question:
+Output of print(1 < 2 < 3)?
+Reasoning:
+Python chains comparisons: (1<2) and (2<3) = True and True = True.
+Answer:
+True
+
+Question:
+What does the pass statement do?
+Reasoning:
+pass is a no-op placeholder used where syntax requires a statement but no action is needed.
+Answer:
+Null statement; syntactic placeholder.
+
+Question:
+Output of 'abc' in 'xabcy'?
+Reasoning:
+in on strings checks substring containment. 'abc' is present.
+Answer:
+True
+
+Question:
+What is memoization and how to do it in Python?
+Reasoning:
+Memoization caches results by input to avoid redundant computation. Use @functools.lru_cache.
+Answer:
+Cache results by input. Use @functools.lru_cache for automatic memoization.
+
+Question:
+What does sorted([('b',2),('a',1)], key=lambda t:t[0]) return?
+Reasoning:
+Key extracts first element. Alphabetical sort: 'a' before 'b'.
+Answer:
+[('a',1),('b',2)]
+
+Question:
+What does * do in def f(a, *, b)?
+Reasoning:
+A bare * forces all following parameters to be keyword-only.
+Answer:
+Forces b to be keyword-only.
+
+Question:
+Output of {1,2,3} & {2,3,4}?
+Reasoning:
+& on sets computes intersection: elements in both.
+Answer:
+{2,3}
+
+Question:
+What does sys.argv contain?
+Reasoning:
+sys.argv is a list of command-line arguments. sys.argv[0] is the script name.
+Answer:
+List of CLI arguments; [0] is the script name.
+
+Question:
+Edge case: modifying a dict during iteration?
+Reasoning:
+Adding or removing keys during iteration raises RuntimeError. Fix: iterate over list(d.keys()).
+Answer:
+Raises RuntimeError. Fix: for k in list(d.keys()).
+
+Question:
+What does any(x>5 for x in [1,2,3]) return?
+Reasoning:
+None of 1,2,3 exceed 5. any() finds no truthy value.
+Answer:
+False
+
+Question:
+What does 'hello'.find('x') return?
+Reasoning:
+find() returns index or -1 if not found. 'x' is absent.
+Answer:
+-1
+
+Question:
+Difference between map() and list comprehension?
+Reasoning:
+map() is a lazy iterator. List comprehension eagerly builds a list. map is more memory-efficient; comprehensions are more readable.
+Answer:
+map() = lazy; list comprehension = eager.
+
+Question:
+What does chr(65) return?
+Reasoning:
+chr() converts Unicode code point to character. 65 = 'A'.
+Answer:
+'A'
+
+Question:
+Output of [i for i in range(5)][::-1]?
+Reasoning:
+Comprehension gives [0,1,2,3,4]. [::-1] reverses.
+Answer:
+[4,3,2,1]
+
+Question:
+Difference between __add__ and __radd__?
+Reasoning:
+__add__ handles a+b on the left. If NotImplemented, Python tries b.__radd__(a) as fallback.
+Answer:
+__add__ = left-side add; __radd__ = right-side reflected fallback.
+
+Question:
+What does '%s has %d items' % ('cart',3) return?
+Reasoning:
+% formatting substitutes %s='cart' and %d=3.
+Answer:
+'cart has 3 items'
+
+Question:
+What does dict.items() return?
+Reasoning:
+dict.items() returns a live view of (key,value) pairs reflecting real-time dict changes.
+Answer:
+Live view of (key,value) pairs.
+
+Question:
+What does [1,2,3].index(2) return?
+Reasoning:
+index() returns zero-based position of first occurrence. 2 is at index 1.
+Answer:
+1
+
+Question:
+Why is tuple preferred for heterogeneous data?
+Reasoning:
+Tuples represent fixed records (name,age). Lists are for homogeneous mutable sequences. Tuples are immutable and slightly more efficient.
+Answer:
+Tuples = fixed heterogeneous records; lists = homogeneous mutable sequences.
+
+Question:
+What does max([3,1,4,1,5,9,2,6]) return?
+Reasoning:
+max() scans all elements and returns the largest.
+Answer:
+9
+
+Question:
+Output of bool(0.0)?
+Reasoning:
+Any float equal to zero is falsy.
+Answer:
+False
+
+Question:
+Difference between list.reverse() and list[::-1]?
+Reasoning:
+list.reverse() reverses in-place (returns None). list[::-1] creates a new reversed list.
+Answer:
+reverse() = in-place, returns None; [::-1] = new list, original unchanged.
+
+Question:
+What is the output of list(filter(None,[0,1,False,2,'',3]))?
+Reasoning:
+filter(None, iterable) keeps only truthy elements. 0, False, '' are falsy and removed.
+Answer:
+[1,2,3]
+
+Question:
+What does collections.OrderedDict do differently from dict in Python 3.7+?
+Reasoning:
+In Python 3.7+ regular dicts preserve order too. OrderedDict additionally supports move_to_end() and equality checks that consider order.
+Answer:
+OrderedDict supports move_to_end() and order-sensitive equality; regular dict does not.
+
+Question:
+What is the output of [1,2,3,4,5][1:-1]?
+Reasoning:
+Slice [1:-1] starts at index 1 and ends before last index: elements at indices 1,2,3.
+Answer:
+[2,3,4]
+
+Question:
+Explain the difference between class variables and instance variables.
+Reasoning:
+Class variables are defined in the class body and shared among all instances. Instance variables are set via self in __init__ and unique per instance.
+Answer:
+Class var: shared by all instances. Instance var: unique per object, set with self.
+
+Question:
+What does str.join() do and what is its edge case with empty iterable?
+Reasoning:
+str.join(iterable) concatenates elements of iterable with str as separator. Edge case: empty iterable returns empty string, not an error.
+Answer:
+Joins elements with separator. Empty iterable returns ''.
+
+Question:
+What is the output of sorted('banana')?
+Reasoning:
+Sorting a string sorts its characters alphabetically: a,a,a,b,n,n.
+Answer:
+['a','a','a','b','n','n']
+
+Question:
+What does dict comprehension {k:v for k,v in zip('abc',[1,2,3])} return?
+Reasoning:
+zip pairs 'a' with 1, 'b' with 2, 'c' with 3. Dict comprehension builds a mapping.
+Answer:
+{'a':1,'b':2,'c':3}
+
+Question:
+What is the output of print(*[1,2,3])?
+Reasoning:
+* unpacks the list into individual positional arguments to print. print receives 1,2,3 separately and prints them space-separated.
+Answer:
+1 2 3
+
+Question:
+What does os.getcwd() return?
+Reasoning:
+os.getcwd() returns the current working directory as a string.
+Answer:
+The current working directory path as a string.
+
+Question:
+Explain Python's property decorator.
+Reasoning:
+@property allows a method to be accessed like an attribute. Enables controlled attribute access with getter/setter/deleter without changing the public API.
+Answer:
+@property turns a method into a computed attribute, enabling controlled access with getter/setter.
+
+Question:
+What is the output of 'hello'[::-1]?
+Reasoning:
+[::-1] reverses the string: 'o','l','l','e','h'.
+Answer:
+'olleh'
+
+Question:
+What does vars(obj) return?
+Reasoning:
+vars(obj) returns the __dict__ of an object — its instance attribute dictionary.
+Answer:
+The instance's __dict__ attribute dictionary.
+
+Question:
+What is a context manager and how do you create a custom one?
+Reasoning:
+A context manager supports __enter__ and __exit__. Create with a class defining both, or use @contextlib.contextmanager with yield.
+Answer:
+Define __enter__ and __exit__, or use @contextlib.contextmanager with yield.
+
+Question:
+What is the output of min([],default=0)?
+Reasoning:
+min() on an empty sequence raises ValueError unless default is provided. With default=0, it returns 0.
+Answer:
+0
+
+Question:
+What does set.discard(x) do vs set.remove(x)?
+Reasoning:
+remove(x) raises KeyError if x is absent. discard(x) silently does nothing if x is absent.
+Answer:
+discard: no error if absent. remove: raises KeyError if absent.
+
+Question:
+What is the output of list(range(5,0,-1))?
+Reasoning:
+range(5,0,-1) counts from 5 down to 1 (stop 0 exclusive).
+Answer:
+[5,4,3,2,1]
+
+Question:
+What does __call__ enable on a class instance?
+Reasoning:
+__call__ allows an instance to be called like a function using obj(). Makes instances callable.
+Answer:
+Enables obj() syntax on instances; makes them callable like functions.
+
+Question:
+What is the output of 'abc'.replace('b','x')?
+Reasoning:
+replace returns a new string with all occurrences of 'b' replaced by 'x'.
+Answer:
+'axc'
+
+Question:
+What does itertools.islice(iter,3) do?
+Reasoning:
+islice returns a lazy iterator that yields the first 3 elements from iter without materializing the rest.
+Answer:
+Lazily yields first 3 elements from an iterator.
+
+Question:
+What is the output of len({1,2,3,3,2,1})?
+Reasoning:
+The set literal {1,2,3,3,2,1} stores unique elements: {1,2,3}. len = 3.
+Answer:
+3
+
+Question:
+Explain the difference between == and is for small integers in Python.
+Reasoning:
+CPython caches small integers (typically -5 to 256). For these, is returns True because the same object is reused. For larger integers, new objects are created and is returns False.
+Answer:
+Small ints (-5 to 256) are cached; is returns True. Larger ints create new objects; is may return False.
+
+Question:
+What does str.endswith(suffix) return?
+Reasoning:
+Returns True if the string ends with the specified suffix, False otherwise.
+Answer:
+True if string ends with suffix, else False.
+
+Question:
+What is the output of [1,2,3][:10]?
+Reasoning:
+Slicing beyond the list length does not raise an error; Python returns as many elements as available.
+Answer:
+[1,2,3]
+
+Question:
+What does functools.partial do?
+Reasoning:
+partial(func, *args, **kwargs) returns a new callable with some of func's arguments pre-filled. Useful for creating specialized functions from general ones.
+Answer:
+Creates a new callable with some arguments pre-filled (partial application).
+
+Question:
+What is the output of print(end='') in Python?
+Reasoning:
+print(end='') prints nothing and suppresses the default newline, outputting an empty string.
+Answer:
+Prints nothing (empty string, no newline).
+
+Question:
+What does @staticmethod remove from a method?
+Reasoning:
+@staticmethod removes the implicit self (or cls) first argument, making the method a plain function namespaced in the class.
+Answer:
+Removes implicit first arg (self/cls); method becomes a plain function in the class namespace.
+
+Question:
+What is the difference between a module and a package?
+Reasoning:
+A module is a single .py file. A package is a directory containing an __init__.py and multiple modules.
+Answer:
+Module = single .py file; package = directory of modules with __init__.py.
+
+Question:
+What does next(iter([]),None) return?
+Reasoning:
+iter([]) creates an iterator over an empty list. next() on it would raise StopIteration; the default None is returned instead.
+Answer:
+None
+
+Question:
+What is the output of bool('False')?
+Reasoning:
+Any non-empty string is truthy, including the string 'False'.
+Answer:
+True
+
+Question:
+Explain Python's ternary (conditional) expression.
+Reasoning:
+Python's ternary: value_if_true if condition else value_if_false. Evaluates to one of two expressions based on condition.
+Answer:
+x if condition else y — returns x when True, y when False.
+
+Question:
+What does str.partition(sep) return?
+Reasoning:
+partition splits the string at the first occurrence of sep and returns a 3-tuple: (before, sep, after). If sep not found, returns (str, '', '').
+Answer:
+(before_sep, sep, after_sep) tuple; (str,'','') if sep absent.
+
+Question:
+What is the output of [1,2,3].copy()?
+Reasoning:
+list.copy() returns a shallow copy of the list — a new list with the same elements.
+Answer:
+[1,2,3] (new list object, same elements)
+
+Question:
+What does typing.Optional[int] mean?
+Reasoning:
+Optional[int] is shorthand for Union[int, None]. It means the value can be an int or None.
+Answer:
+Union[int, None] — the value can be int or None.
+
+Question:
+What is the output of 10 % 3?
+Reasoning:
+% is the modulo operator. 10 = 3*3 + 1. Remainder is 1.
+Answer:
+1
+
+Question:
+What does collections.namedtuple do?
+Reasoning:
+namedtuple creates a tuple subclass with named fields, making elements accessible by name instead of just index.
+Answer:
+Creates a tuple subclass with named fields, enabling attribute-style access.
+
+Question:
+What is the output of 'hello'.count('l')?
+Reasoning:
+count() returns how many times a substring appears. 'l' appears at index 2 and 3.
+Answer:
+2
+
+Question:
+Explain shallow copy edge case with nested lists.
+Reasoning:
+If a shallow-copied outer list contains inner lists, both share the same inner list objects. Mutating an inner list in the copy affects the original.
+Answer:
+Mutating nested objects in a shallow copy also affects the original — use deepcopy for full independence.
+
+Question:
+What does __iter__ and __next__ do in a class?
+Reasoning:
+__iter__ returns the iterator object (usually self). __next__ returns the next value or raises StopIteration when exhausted. Together they make a class iterable.
+Answer:
+__iter__ returns iterator; __next__ yields next value or raises StopIteration.
+
+Question:
+What is the output of list('hello')?
+Reasoning:
+list() on a string splits it into individual characters.
+Answer:
+['h','e','l','l','o']
+
+Question:
+What does os.environ.get('HOME','') do?
+Reasoning:
+os.environ.get retrieves the value of environment variable HOME, returning '' if it is not set.
+Answer:
+Returns the HOME env var value, or '' if not set.
+
+Question:
+What is the difference between global and nonlocal?
+Reasoning:
+global declares that a variable refers to the module-level global scope. nonlocal refers to the nearest enclosing (but non-global) scope — used in nested functions.
+Answer:
+global = module scope; nonlocal = nearest enclosing function scope.
+
+Question:
+What does the walrus operator := do?
+Reasoning:
+:= (walrus/assignment expression) assigns a value to a variable as part of an expression, allowing assignment within conditions or comprehensions.
+Answer:
+Assigns value to variable within an expression: if (n := len(data)) > 10:
+
+Question:
+What is the output of [1,2,3].remove(2)?
+Reasoning:
+remove() deletes the first occurrence of the value in place and returns None.
+Answer:
+None (modifies list to [1,3] in place)
+
+Question:
+What does json.dumps({'a':1}) return?
+Reasoning:
+json.dumps serializes a Python object to a JSON-formatted string.
+Answer:
+'{"a": 1}'
+
+Question:
+What is the output of set() == frozenset()?
+Reasoning:
+Both are empty sets of their respective types. == compares content. An empty set equals an empty frozenset.
+Answer:
+True
+
+Question:
+What does str.zfill(width) do?
+Reasoning:
+zfill pads a numeric string with leading zeros to reach the specified width.
+Answer:
+Pads string with leading zeros to reach given width. '42'.zfill(5) = '00042'.
+
+Question:
+What is the output of (lambda x,y: x+y)(2,3)?
+Reasoning:
+Immediately invoked lambda with args 2 and 3. Returns 2+3=5.
+Answer:
+5
+
+Question:
+Explain Python's f-strings.
+Reasoning:
+f-strings (formatted string literals) use f'...' syntax. Expressions in {} are evaluated at runtime and embedded. Available since Python 3.6.
+Answer:
+f'...' evaluates expressions inside {} at runtime. E.g., f'{1+1}' → '2'.
+
+Question:
+What does enumerate do with a string?
+Reasoning:
+enumerate('abc') yields (0,'a'),(1,'b'),(2,'c') — index-character pairs.
+Answer:
+Yields (index, char) pairs for each character.
+
+Question:
+What is the output of max('banana')?
+Reasoning:
+max() on a string compares characters by Unicode code point. 'n' has the highest code point among b,a,n,a,n,a.
+Answer:
+'n'
+
+Question:
+What does dict.pop(key) do?
+Reasoning:
+dict.pop(key) removes and returns the value for key. Raises KeyError if key absent unless a default is provided.
+Answer:
+Removes and returns value for key; raises KeyError if absent (or returns default if supplied).
+
+Question:
+What is the output of list(map(lambda x:x*2, range(4)))?
+Reasoning:
+map applies x*2 to each element of range(4): 0,2,4,6. list() materializes.
+Answer:
+[0,2,4,6]
+
+Question:
+What does typing.List[int] vs list mean for type hints?
+Reasoning:
+In Python 3.9+, built-in list[int] can be used directly. typing.List[int] is the older form. Both indicate a list of integers for type checkers; no runtime enforcement.
+Answer:
+Both indicate a list of ints for type checkers. Python 3.9+ supports list[int] directly.
+
+Question:
+What is the output of (-7) % 3?
+Reasoning:
+Python modulo always returns a non-negative result when divisor is positive. -7 = (-3)*3 + 2. Remainder is 2.
+Answer:
+2
+
+Question:
+What does re.sub(pattern,repl,string) do?
+Reasoning:
+re.sub replaces all non-overlapping occurrences of pattern in string with repl.
+Answer:
+Replaces all regex matches with replacement string.
+
+Question:
+What is the output of [x for x in [1,2,None,3] if x]?
+Reasoning:
+Filter condition removes falsy values. None is falsy; 1,2,3 are truthy.
+Answer:
+[1,2,3]
+
+Question:
+What does str.title() do?
+Reasoning:
+title() capitalizes the first letter of each word and lowercases the rest.
+Answer:
+'hello world'.title() → 'Hello World'
+
+Question:
+What is the output of id(1) == id(1)?
+Reasoning:
+Small integers are cached in CPython. Both literals refer to the same cached object, so their ids are equal.
+Answer:
+True (CPython caches small integers).
+
+Question:
+What does zip_longest do from itertools?
+Reasoning:
+itertools.zip_longest zips iterables to the length of the longest, filling shorter ones with a fillvalue (default None).
+Answer:
+Zips to longest iterable length, filling shorter ones with fillvalue (default None).
+
+Question:
+What is the output of 'hello'.encode('utf-8')?
+Reasoning:
+encode() converts string to bytes using the specified encoding. ASCII characters map 1:1.
+Answer:
+b'hello'
+
+Question:
+What does heapq.nlargest(k, iterable) do?
+Reasoning:
+heapq.nlargest returns the k largest elements from iterable as a list, sorted descending. More efficient than full sort for small k.
+Answer:
+Returns k largest elements as a sorted list. Efficient for small k.
+
+Question:
+What is the output of {'a':1,'b':2}.values()?
+Reasoning:
+dict.values() returns a live view of all values in the dict.
+Answer:
+dict_values([1,2])
+
+Question:
+Explain Python's abc module.
+Reasoning:
+abc (Abstract Base Classes) lets you define interfaces. Use @abc.abstractmethod to require subclasses to implement methods. Instantiating an abstract class raises TypeError.
+Answer:
+abc defines abstract base classes; @abstractmethod forces subclasses to implement the method.
+
+Question:
+What does str.lstrip() do?
+Reasoning:
+lstrip() removes leading whitespace (or specified characters) from the left side of a string only.
+Answer:
+Removes leading (left-side) whitespace or specified chars.
+
+Question:
+What is the output of [1,2,3,2,1].count(2)?
+Reasoning:
+count() returns occurrences of value 2 in the list: appears at indices 1 and 3.
+Answer:
+2
+
+Question:
+What is a Python property setter?
+Reasoning:
+A property setter uses @prop.setter to define a method called when you assign to the property. Enables validation or transformation on assignment.
+Answer:
+@prop.setter defines assignment behavior for a property, enabling validation on set.
+
+Question:
+What does random.shuffle do vs random.sample?
+Reasoning:
+random.shuffle shuffles a list in place and returns None. random.sample returns a new list of k unique random elements without modifying the original.
+Answer:
+shuffle: in-place, returns None. sample: returns new list of k unique elements.
+
+Question:
+What is the output of ''.join(['a','b','c'])?
+Reasoning:
+join concatenates the list elements with '' (empty string) as separator.
+Answer:
+'abc'
+
+Question:
+Explain the difference between append to list vs list comprehension for building lists.
+Reasoning:
+Loop with append modifies a list incrementally: O(1) amortized per append. List comprehension builds the list in one optimized pass. Comprehensions are generally faster due to lower overhead.
+Answer:
+Comprehensions are faster; append loop has function call overhead per element.
+
+Question:
+What does itertools.product([1,2],['a','b']) return?
+Reasoning:
+itertools.product computes the Cartesian product: all combinations of elements from the input iterables.
+Answer:
+[(1,'a'),(1,'b'),(2,'a'),(2,'b')]
+
+Question:
+What is the output of bool([])?
+Reasoning:
+An empty list is falsy in Python.
+Answer:
+False
+
+Question:
+What does try/except/else/finally do in Python?
+Reasoning:
+try: code that may raise. except: handles exceptions. else: runs only if no exception occurred. finally: always runs regardless.
+Answer:
+except: on error. else: on success. finally: always.
+
+Question:
+What is the output of 'abc'.startswith('ab')?
+Reasoning:
+startswith checks if string begins with given prefix.
+Answer:
+True
+
+Question:
+What does __contains__ enable on a class?
+Reasoning:
+__contains__ enables the in operator on custom objects: `x in obj` calls obj.__contains__(x).
+Answer:
+Enables `in` operator on custom objects.
+
+Question:
+What is the output of list(dict.fromkeys([1,2,1,3]))?
+Reasoning:
+dict.fromkeys removes duplicates while preserving insertion order. list() converts keys.
+Answer:
+[1,2,3]
+
+Question:
+What does pprint.pprint do?
+Reasoning:
+pprint (pretty-print) formats complex Python objects (dicts, lists) in a readable, indented way.
+Answer:
+Formats complex objects (dicts, lists) into readable, indented output.
+
+Question:
+What is the output of tuple(range(3))?
+Reasoning:
+range(3)=[0,1,2]. tuple() converts it.
+Answer:
+(0,1,2)
+
+Question:
+What does str.center(width) do?
+Reasoning:
+center() returns a string padded with spaces on both sides to reach the given width, with the original centered.
+Answer:
+Centers string in a field of given width, padding with spaces.
+
+Question:
+What is the time complexity of heapq.heapify()?
+Reasoning:
+heapify transforms a list into a valid heap in O(n) time, faster than inserting n elements one by one.
+Answer:
+O(n)
+
+Question:
+What does @dataclass do in Python?
+Reasoning:
+@dataclass automatically generates __init__, __repr__, __eq__, and other methods based on class annotations, reducing boilerplate.
+Answer:
+Auto-generates __init__, __repr__, __eq__ etc. from class annotations.
+
+Question:
+What is the output of {**{'a':1}, **{'b':2}}?
+Reasoning:
+** unpacks each dict. Merging both creates a new dict with all keys.
+Answer:
+{'a':1,'b':2}
+
+Question:
+What does str.split(maxsplit=1) do?
+Reasoning:
+maxsplit limits the number of splits. split(maxsplit=1) splits at most once, returning a list of at most 2 elements.
+Answer:
+Splits at most once, returning at most 2 substrings.
+
+Question:
+What is the output of list(enumerate(range(3)))?
+Reasoning:
+enumerate(range(3)) yields (0,0),(1,1),(2,2). list() materializes.
+Answer:
+[(0,0),(1,1),(2,2)]
+
+Question:
+What does a set comprehension {x*2 for x in range(4)} return?
+Reasoning:
+Applies x*2 to each element: 0,2,4,6. Set comprehension stores unique results.
+Answer:
+{0,2,4,6}
+
+Question:
+What is the output of complex(2,3) + complex(1,-1)?
+Reasoning:
+Complex addition: real parts 2+1=3, imaginary parts 3+(-1)=2.
+Answer:
+(3+2j)
+
+Question:
+What does zip(strict=True) do in Python 3.10+?
+Reasoning:
+zip(strict=True) raises ValueError if the input iterables have different lengths, preventing silent data loss.
+Answer:
+Raises ValueError if iterables have different lengths.
+
+Question:
+What is the output of str(b'hello')?
+Reasoning:
+str() on bytes does not decode — it returns the string representation of the bytes object.
+Answer:
+"b'hello'"
+
+Question:
+What does @property without setter do?
+Reasoning:
+A property without a setter is read-only. Attempting to assign to it raises AttributeError.
+Answer:
+Makes attribute read-only; assignment raises AttributeError.
+
+Question:
+What is the time complexity of set union (A | B)?
+Reasoning:
+Set union iterates over both sets. O(len(A) + len(B)).
+Answer:
+O(len(A) + len(B))
+
+Question:
+What does print(1,2,3, sep='-') output?
+Reasoning:
+sep parameter defines the separator between printed values.
+Answer:
+1-2-3
+
+Question:
+What does train_test_split do in scikit-learn?
+Reasoning:
+train_test_split from sklearn.model_selection splits arrays or matrices into random train and test subsets. You specify test_size (fraction or count) and random_state for reproducibility.
+Answer:
+Splits data into train and test sets. E.g., X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42).
+
+Question:
+What is overfitting and how do you detect it?
+Reasoning:
+Overfitting occurs when a model performs well on training data but poorly on unseen data — it has memorized noise. Detect by comparing train vs validation performance; large gap indicates overfitting.
+Answer:
+High train accuracy + much lower val accuracy = overfitting. Fix with regularization, dropout, or more data.
+
+Question:
+What is the bias-variance tradeoff?
+Reasoning:
+Bias: error from wrong assumptions (underfitting). Variance: error from sensitivity to training data (overfitting). Increasing model complexity reduces bias but increases variance.
+Answer:
+High bias = underfitting; high variance = overfitting. Goal: balance both for good generalization.
+
+Question:
+What does StandardScaler do in scikit-learn?
+Reasoning:
+StandardScaler normalizes features to zero mean and unit variance: z = (x - mean) / std. Important for algorithms sensitive to scale (SVM, KNN, PCA). Fit on train only, transform both train and test.
+Answer:
+Standardizes features to mean=0 and std=1. Always fit on train data only.
+
+Question:
+What is cross-validation and why use it?
+Reasoning:
+Cross-validation (e.g., k-fold) splits data into k folds, trains on k-1, validates on 1, and repeats. Gives a more robust performance estimate than a single train/test split.
+Answer:
+k-fold CV trains k models each tested on a held-out fold; gives stable performance estimates.
+
+Question:
+What is L1 vs L2 regularization?
+Reasoning:
+L1 (Lasso) adds sum of absolute weights to loss, promoting sparsity (some weights become exactly 0). L2 (Ridge) adds sum of squared weights, shrinking weights toward 0 but rarely to exactly 0.
+Answer:
+L1: sparsity (zeros out features). L2: shrinks weights uniformly. L1 does feature selection; L2 keeps all features.
+
+Question:
+What is a confusion matrix?
+Reasoning:
+A confusion matrix is a table showing true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN) for a classification model. Enables computing precision, recall, F1.
+Answer:
+2x2 (or N×N) table of TP,TN,FP,FN counts for evaluating classification.
+
+Question:
+What does fit_transform differ from fit then transform in sklearn?
+Reasoning:
+fit_transform fits the transformer to the data and transforms it in one step (more efficient). Doing fit then transform separately is equivalent. Critical rule: only fit on training data.
+Answer:
+fit_transform is equivalent to fit().transform() but more efficient. Never fit on test data.
+
+Question:
+What is gradient descent?
+Reasoning:
+Gradient descent is an iterative optimization algorithm that updates parameters by moving in the direction of the negative gradient of the loss function. Update: theta = theta - lr * gradient.
+Answer:
+Iteratively updates parameters: theta -= lr * gradient_of_loss. Minimizes loss by following steepest descent.
+
+Question:
+What is the difference between batch, mini-batch, and stochastic gradient descent?
+Reasoning:
+Batch GD uses all training samples to compute gradient — accurate but slow. Stochastic GD (SGD) uses one sample — fast but noisy. Mini-batch uses a small batch — balances speed and stability.
+Answer:
+Batch: all data; SGD: one sample; Mini-batch: small subset. Mini-batch is standard practice.
+
+Question:
+What is precision vs recall?
+Reasoning:
+Precision = TP/(TP+FP): of all predicted positives, how many were correct. Recall = TP/(TP+FN): of all actual positives, how many were caught. Trade-off: raising threshold increases precision, reduces recall.
+Answer:
+Precision = TP/(TP+FP); Recall = TP/(TP+FN). Trade-off controlled by classification threshold.
+
+Question:
+What is the F1 score?
+Reasoning:
+F1 = 2 * (precision * recall) / (precision + recall). Harmonic mean of precision and recall. Useful when class imbalance exists and both false positives and negatives matter.
+Answer:
+F1 = 2*P*R/(P+R). Harmonic mean; good metric for imbalanced datasets.
+
+Question:
+What is feature scaling and when is it necessary?
+Reasoning:
+Feature scaling (normalization/standardization) puts features on the same scale. Necessary for distance-based models (KNN, SVM), gradient descent, PCA. Not needed for tree-based models.
+Answer:
+Required for KNN, SVM, PCA, linear models. Not needed for decision trees or random forests.
+
+Question:
+What does PCA do?
+Reasoning:
+Principal Component Analysis projects data onto orthogonal axes (principal components) that capture maximum variance. Reduces dimensionality while preserving as much information as possible.
+Answer:
+PCA reduces dimensions by projecting onto top variance-maximizing orthogonal components.
+
+Question:
+What is the purpose of a validation set vs test set?
+Reasoning:
+Validation set: used during training to tune hyperparameters and monitor performance. Test set: held out until the very end to estimate real-world performance. Using test set for tuning leaks information.
+Answer:
+Validation: hyperparameter tuning during development. Test: final unbiased evaluation — use only once.
+
+Question:
+What is one-hot encoding and when do you use it?
+Reasoning:
+One-hot encoding converts a categorical variable with N categories into N binary columns. Needed for linear/logistic regression and neural networks that can't handle string labels.
+Answer:
+Converts categorical variable to N binary columns. Necessary for models that need numeric input.
+
+Question:
+What is the difference between bagging and boosting?
+Reasoning:
+Bagging (e.g., Random Forest): trains independent models in parallel on bootstrap samples, averages predictions — reduces variance. Boosting (e.g., XGBoost): trains models sequentially, each correcting prior errors — reduces bias.
+Answer:
+Bagging: parallel, reduces variance. Boosting: sequential, reduces bias.
+
+Question:
+What is dropout in neural networks?
+Reasoning:
+Dropout randomly sets a fraction of neurons to zero during each training forward pass. This prevents co-adaptation and acts as regularization, reducing overfitting.
+Answer:
+Randomly zeroes neurons during training to prevent overfitting; a regularization technique.
+
+Question:
+What is the vanishing gradient problem?
+Reasoning:
+In deep networks with sigmoid/tanh activations, gradients become extremely small during backpropagation through many layers. Early layers learn very slowly or not at all. Mitigated by ReLU, batch norm, or residual connections.
+Answer:
+Gradients shrink exponentially in deep networks. Use ReLU, BatchNorm, or residual connections.
+
+Question:
+What is the difference between supervised and unsupervised learning?
+Reasoning:
+Supervised: model trains on labeled examples (X,y) to learn a mapping. Unsupervised: no labels; model finds structure in X alone (clustering, dimensionality reduction).
+Answer:
+Supervised: labeled data, learn X→y. Unsupervised: no labels, find structure in X.
+
+Question:
+What is the elbow method for KMeans?
+Reasoning:
+The elbow method plots within-cluster sum of squares (WCSS) vs number of clusters k. Choose k where the curve bends (elbow), indicating diminishing returns from adding more clusters.
+Answer:
+Plot WCSS vs k; choose k at the elbow point where adding clusters no longer significantly reduces WCSS.
+
+Question:
+What does learning rate control in gradient descent?
+Reasoning:
+Learning rate controls the step size of each parameter update. Too large: may overshoot and diverge. Too small: slow convergence. Often tuned with learning rate schedules or adaptive optimizers (Adam).
+Answer:
+Controls update step size. Too large = diverge; too small = slow. Use Adam or LR schedules.
+
+Question:
+What is batch normalization?
+Reasoning:
+Batch norm normalizes layer activations to zero mean and unit variance per mini-batch, then applies learnable scale and shift. Stabilizes training, allows higher LR, acts as regularization.
+Answer:
+Normalizes activations per mini-batch; stabilizes training and reduces internal covariate shift.
+
+Question:
+What does class_weight='balanced' do in sklearn?
+Reasoning:
+class_weight='balanced' tells the model to weight each class inversely proportional to its frequency, effectively penalizing misclassifications of minority classes more. Handles class imbalance.
+Answer:
+Weights classes inversely to frequency, helping with imbalanced datasets.
+
+Question:
+What is ROC AUC?
+Reasoning:
+ROC AUC is the Area Under the Receiver Operating Characteristic curve. It measures a model's ability to distinguish between classes across all thresholds. AUC=1.0 is perfect; 0.5 is random.
+Answer:
+AUC measures discrimination ability across thresholds. 1.0 = perfect; 0.5 = random.
+
+Question:
+What is the curse of dimensionality?
+Reasoning:
+As dimensions increase, data becomes sparse, distances become meaningless, and models need exponentially more data. KNN and volume-based methods degrade significantly in high dimensions.
+Answer:
+High dimensions cause data sparsity and distance degradation. KNN and clustering degrade.
+
+Question:
+What does Pipeline in sklearn do?
+Reasoning:
+sklearn.Pipeline chains multiple transformers and a final estimator into a single object. Ensures consistent preprocessing between train and test and prevents data leakage.
+Answer:
+Chains preprocessing and model into one object; prevents leakage by fitting only on train data.
+
+Question:
+What is mean squared error (MSE) vs mean absolute error (MAE)?
+Reasoning:
+MSE: average of squared errors — penalizes large errors more heavily, is differentiable. MAE: average of absolute errors — more robust to outliers, but not differentiable at zero.
+Answer:
+MSE penalizes outliers more; MAE is robust to outliers. MSE is differentiable everywhere.
+
+Question:
+What is transfer learning?
+Reasoning:
+Transfer learning uses a model pre-trained on a large dataset as a starting point for a new task. Fine-tune on the target dataset. Saves training time and works well with limited data.
+Answer:
+Reuses a pretrained model for a new task; fine-tuning on target data is often sufficient.
+
+Question:
+What does numpy.argmax do?
+Reasoning:
+numpy.argmax returns the index of the maximum value along an axis. For a 2D array with axis=1, returns the column index of max per row.
+Answer:
+Returns the index of the maximum value. axis=1 finds max column index per row.
+
+Question:
+What is a random forest and why does it outperform a single decision tree?
+Reasoning:
+Random Forest builds many trees on bootstrap samples using random feature subsets. Final prediction aggregates all trees. Reduces variance via averaging and the diversity of trees.
+Answer:
+Ensemble of trees on bootstrap + random features. Reduces variance; more robust than single tree.
+
+Question:
+What does sklearn's GridSearchCV do?
+Reasoning:
+GridSearchCV exhaustively searches over a parameter grid using cross-validation to find the best hyperparameter combination according to a scoring metric.
+Answer:
+Exhaustive hyperparameter search with CV; returns best params and estimator.
+
+Question:
+What is the difference between parameters and hyperparameters?
+Reasoning:
+Parameters are learned from data during training (e.g., weights). Hyperparameters are set before training and control the learning process (e.g., learning rate, number of layers).
+Answer:
+Parameters: learned from data. Hyperparameters: set manually before training.
+
+Question:
+What does numpy.dot(A,B) compute?
+Reasoning:
+For 2D arrays, numpy.dot computes matrix multiplication. For 1D arrays, it computes the dot product. For N-D, it sums over the last axis of A and second-to-last of B.
+Answer:
+Matrix multiplication for 2D arrays; dot product for 1D arrays.
+
+Question:
+What is data leakage in machine learning?
+Reasoning:
+Data leakage occurs when information from outside the training set (typically from test/future data) is used to build the model. Causes unrealistically good validation performance that fails in production.
+Answer:
+Leakage means test/future data influences training, causing overly optimistic metrics.
+
+Question:
+What is the sigmoid function and when is it used?
+Reasoning:
+sigmoid(x) = 1/(1+e^-x) maps any real number to (0,1). Used in logistic regression and binary classification output layers to represent probabilities.
+Answer:
+Maps input to (0,1); used for binary classification probability output.
+
+Question:
+What is a learning curve and what does it tell you?
+Reasoning:
+A learning curve plots train and validation performance vs training set size. If both plateau close together: more data won't help. If val is much worse: overfitting. If both are low: underfitting.
+Answer:
+Shows model performance vs data size. High gap = overfitting; both low = underfitting.
+
+Question:
+What does sklearn's LabelEncoder do vs OrdinalEncoder?
+Reasoning:
+LabelEncoder encodes a single categorical column to integers (used for y labels). OrdinalEncoder handles 2D arrays (used for X features with multiple columns).
+Answer:
+LabelEncoder: for 1D y labels. OrdinalEncoder: for 2D feature arrays.
+
+Question:
+What is the ReLU activation and why is it preferred over sigmoid?
+Reasoning:
+ReLU(x) = max(0, x). Computationally simple, does not saturate for positive values, alleviates vanishing gradient. Downside: dying ReLU (neurons output 0 for all inputs).
+Answer:
+ReLU = max(0,x). No vanishing gradient for positives; preferred in hidden layers.
+
+Question:
+What is an epoch in neural network training?
+Reasoning:
+One epoch = one complete pass through the entire training dataset. Multiple epochs allow the model to learn from data repeatedly. Too few = underfitting; too many = overfitting.
+Answer:
+One full pass over training data. Models train for many epochs; monitor val loss for early stopping.
+
+Question:
+What does numpy.reshape(-1,1) do?
+Reasoning:
+-1 means numpy infers that dimension automatically. reshape(-1,1) reshapes a 1D array into a 2D column vector (n,1), required by many sklearn estimators.
+Answer:
+Converts 1D array to column vector (n,1). -1 lets numpy infer the size.
+
+Question:
+What is SMOTE in the context of imbalanced learning?
+Reasoning:
+SMOTE (Synthetic Minority Over-sampling Technique) generates synthetic samples for the minority class by interpolating between existing minority class samples. Avoids exact duplication.
+Answer:
+Generates synthetic minority class samples by interpolating between existing ones.
+
+Question:
+What is the purpose of softmax in classification?
+Reasoning:
+Softmax converts raw logits (any real numbers) to a probability distribution over N classes summing to 1. Output[i] = exp(z[i]) / sum(exp(z)). Used in the final layer for multi-class classification.
+Answer:
+Converts logits to probability distribution summing to 1; used for multi-class output.
+
+Question:
+What does early stopping do in training?
+Reasoning:
+Early stopping halts training when validation loss stops improving for a set number of epochs (patience). Prevents overfitting by not over-training on the training set.
+Answer:
+Stops training when val loss stops improving; prevents overfitting.
+
+Question:
+What is the difference between KNN classification and regression?
+Reasoning:
+KNN classification: assigns the majority class among k nearest neighbors. KNN regression: assigns the average (or weighted average) of k neighbors' values.
+Answer:
+Classification: majority vote of k neighbors. Regression: mean of k neighbors' values.
+
+Question:
+What does pandas.DataFrame.groupby('col').agg('mean') do?
+Reasoning:
+groupby groups rows by unique values in 'col'. .agg('mean') then computes the column-wise mean within each group.
+Answer:
+Groups rows by 'col' and computes the mean of other columns within each group.
+
+Question:
+What is weight initialization in neural networks and why does it matter?
+Reasoning:
+Weight initialization sets starting parameter values. Zero init causes all neurons to learn the same (symmetry breaking problem). Use random init (Xavier/He) to break symmetry and enable learning.
+Answer:
+Random init (Xavier/He) breaks symmetry; zero init prevents learning due to identical gradients.
+
+Question:
+What is a confusion matrix edge case for a perfectly imbalanced dataset?
+Reasoning:
+If 99% of samples belong to class 0 and a model always predicts class 0, accuracy is 99% but recall for class 1 is 0%. Accuracy alone is misleading — use F1, AUC, or confusion matrix.
+Answer:
+High accuracy can hide total failure on minority class. Always check recall and F1 for imbalanced data.
+
+Question:
+What does MinMaxScaler do vs StandardScaler?
+Reasoning:
+MinMaxScaler scales features to a fixed range [0,1] (or custom range): x_scaled=(x-min)/(max-min). StandardScaler standardizes to mean=0, std=1. MinMaxScaler is sensitive to outliers.
+Answer:
+MinMaxScaler → [0,1]; StandardScaler → mean=0, std=1. MinMaxScaler is sensitive to outliers.
+
+Question:
+What is mean encoding (target encoding)?
+Reasoning:
+Mean encoding replaces a categorical value with the mean of the target variable for that category. Risk: leakage if train target is used directly; use cross-validation or smoothing.
+Answer:
+Replace category with mean target value. Use CV-based encoding to prevent leakage.
+
+Question:
+What is numpy broadcasting?
+Reasoning:
+Broadcasting allows numpy to perform element-wise operations on arrays of different shapes by implicitly expanding dimensions. Rules: dimensions are compared from right; 1 can be expanded.
+Answer:
+Operations on different-shaped arrays by implicitly expanding dimensions of size 1.
+
+Question:
+What does pandas.merge do vs pandas.concat?
+Reasoning:
+merge performs SQL-style joins on shared columns/keys. concat stacks DataFrames vertically (axis=0) or horizontally (axis=1) without alignment on keys.
+Answer:
+merge = SQL join on keys. concat = stack DataFrames along an axis.
+
+Question:
+What is the difference between stochastic gradient descent and Adam optimizer?
+Reasoning:
+SGD updates with a fixed learning rate in the gradient direction. Adam adapts the learning rate per parameter using first and second moment estimates, typically converging faster.
+Answer:
+Adam adapts per-parameter LR using gradient moments; usually converges faster than fixed-LR SGD.
+
+Question:
+What does sklearn's cross_val_score return?
+Reasoning:
+cross_val_score runs k-fold cross-validation and returns an array of k scores (one per fold) for the specified scoring metric.
+Answer:
+Returns an array of k scores, one per fold. Use .mean() and .std() to summarize.
+
+Question:
+What is a hyperparameter search with RandomizedSearchCV vs GridSearchCV?
+Reasoning:
+GridSearchCV tests all combinations in the grid: exhaustive but slow. RandomizedSearchCV samples a fixed number of parameter combinations randomly: faster and often finds good results.
+Answer:
+GridSearchCV: exhaustive. RandomizedSearchCV: random sample of combinations; better for large search spaces.
+
+Question:
+What is the difference between recall and sensitivity?
+Reasoning:
+Recall and sensitivity are the same metric: TP/(TP+FN). It measures the fraction of actual positives correctly identified.
+Answer:
+Recall = sensitivity = TP/(TP+FN). Same metric, different names.
+
+Question:
+What does the Adam optimizer's beta_1 parameter control?
+Reasoning:
+beta_1 controls the exponential decay rate for the first moment (mean of gradients). Default 0.9 means the current gradient contributes 10% while the history contributes 90%.
+Answer:
+beta_1: decay rate for gradient mean (momentum). Default 0.9.
+
+Question:
+What is an autoencoder?
+Reasoning:
+An autoencoder is a neural network with an encoder (compresses input to a latent space) and a decoder (reconstructs input from latent). Used for dimensionality reduction, denoising, anomaly detection.
+Answer:
+Encoder compresses to latent space; decoder reconstructs. Used for dimensionality reduction and anomaly detection.
+
+Question:
+What does numpy.where(condition, x, y) do?
+Reasoning:
+numpy.where returns elements from x where condition is True, and from y where it is False. Vectorized conditional selection.
+Answer:
+Element-wise conditional: x where True, y where False.
+
+Question:
+What is the difference between pandas.loc and pandas.iloc?
+Reasoning:
+loc uses label-based indexing (actual index values or column names). iloc uses integer-position-based indexing (0,1,2,...). They differ when index is not the default integer range.
+Answer:
+loc: label-based. iloc: integer position-based. Differ when index is not default 0,1,2,...
+
+Question:
+What is L2 weight decay and how does it relate to Ridge regression?
+Reasoning:
+L2 weight decay adds lambda * sum(w^2) to the loss, penalizing large weights. Ridge regression applies exactly this penalty to linear regression. Equivalent: optimizing MSE + L2 = Ridge.
+Answer:
+L2 weight decay in linear models = Ridge regression. Both minimize MSE + lambda*sum(w^2).
+
+Question:
+What is a decision tree and what metric does it split on?
+Reasoning:
+A decision tree recursively splits data on feature thresholds to minimize impurity. Common metrics: Gini impurity (default in sklearn) or Information Gain (entropy) for classification. MSE for regression.
+Answer:
+Splits to minimize Gini impurity or entropy (classification), or MSE (regression).
+
+Question:
+What does sklearn's ColumnTransformer do?
+Reasoning:
+ColumnTransformer applies different preprocessing transformers to different subsets of columns in parallel, then concatenates results. Used in pipelines with mixed numeric/categorical features.
+Answer:
+Applies different transformers to different columns in parallel, then concatenates the outputs.
+
+Question:
+What is a residual (in regression)?
+Reasoning:
+A residual is the difference between the actual target value and the model's predicted value: residual = y - y_hat. Residual analysis helps diagnose model fit.
+Answer:
+residual = actual - predicted. Used to diagnose model fit and assumptions.
+
+Question:
+What is the purpose of a learning rate scheduler?
+Reasoning:
+A learning rate scheduler reduces the learning rate during training (e.g., step decay, cosine annealing). Helps the model make large updates early and fine-tune later.
+Answer:
+Reduces LR during training for better convergence — large steps early, small steps later.
+
+Question:
+What does numpy.vstack vs hstack do?
+Reasoning:
+numpy.vstack stacks arrays vertically (along axis=0). numpy.hstack stacks arrays horizontally (along axis=1). Both require compatible shapes on the non-stacking axis.
+Answer:
+vstack: vertical stack (more rows). hstack: horizontal stack (more columns).
+
+Question:
+What is gradient clipping?
+Reasoning:
+Gradient clipping caps gradients at a threshold before the parameter update step. Prevents exploding gradients in RNNs and deep networks by keeping gradient norms bounded.
+Answer:
+Caps gradient norms before updates; prevents exploding gradients in RNNs.
+
+Question:
+What does pandas.fillna do?
+Reasoning:
+fillna fills NaN (missing) values with a specified value or method (forward fill, backward fill). Helps handle missing data before modeling.
+Answer:
+Replaces NaN values with a given value or fill strategy (ffill, bfill, etc.).
+
+Question:
+What is the difference between hard voting and soft voting in ensemble classifiers?
+Reasoning:
+Hard voting: each model votes for a class; majority wins. Soft voting: average predicted probabilities across models; class with highest mean probability wins. Soft voting is usually better.
+Answer:
+Hard voting: majority class vote. Soft voting: average probabilities. Soft usually outperforms.
+
+Question:
+What is feature importance in random forests?
+Reasoning:
+Feature importance measures how much each feature contributes to reducing impurity across all trees. Computed as mean impurity decrease weighted by node probability. Higher = more important.
+Answer:
+Measures mean impurity reduction across trees. Used for feature selection.
+
+Question:
+What is log loss (cross-entropy) used for?
+Reasoning:
+Log loss measures the performance of a classification model where prediction is a probability. Lower log loss = better calibrated predictions. Used for binary/multi-class classification.
+Answer:
+Measures quality of probability predictions. Lower = better calibrated model.
+
+Question:
+What does pandas.drop_duplicates() do?
+Reasoning:
+drop_duplicates() removes rows that are exact duplicates across all (or specified) columns, keeping the first occurrence by default.
+Answer:
+Removes duplicate rows; keeps first by default.
+
+Question:
+What is a support vector machine (SVM)?
+Reasoning:
+SVM finds the maximum-margin hyperplane that separates classes. The kernel trick maps data to higher dimensions for non-linear separation. C parameter controls margin vs misclassification trade-off.
+Answer:
+Max-margin classifier. kernel trick for non-linear data. C controls bias-variance trade-off.
+
+Question:
+What does numpy.linspace(0,1,5) return?
+Reasoning:
+linspace generates evenly spaced values between 0 and 1 (inclusive) with 5 elements.
+Answer:
+[0.0, 0.25, 0.5, 0.75, 1.0]
+
+Question:
+What is the purpose of a test harness in ML experiments?
+Reasoning:
+A test harness is a standardized framework for evaluating models — same data splits, metrics, and preprocessing — ensuring fair comparison across experiments.
+Answer:
+Standardized evaluation setup for consistent, fair model comparison.
+
+Question:
+What does stratify=y do in train_test_split?
+Reasoning:
+stratify=y ensures the proportion of each class in y is preserved in both train and test splits. Essential for imbalanced datasets.
+Answer:
+Preserves class distribution in train/test splits; critical for imbalanced data.
+
+Question:
+What is mutual information as a feature selection metric?
+Reasoning:
+Mutual information measures how much knowing a feature reduces uncertainty about the target. High MI = feature is informative. sklearn provides mutual_info_classif for feature selection.
+Answer:
+Measures shared information between feature and target. High MI = informative feature.
+
+Question:
+What is the silhouette score for clustering?
+Reasoning:
+Silhouette score measures how similar a point is to its own cluster vs other clusters. Range: [-1,1]. High score = well-separated clusters. Used to evaluate clustering quality.
+Answer:
+Measures intra-cluster cohesion vs inter-cluster separation. Range [-1,1]; higher is better.
+
+Question:
+What does numpy.concatenate differ from numpy.stack?
+Reasoning:
+concatenate joins arrays along an existing axis without adding a new dimension. stack joins arrays along a new axis, increasing dimensionality by 1.
+Answer:
+concatenate: join along existing axis. stack: join along new axis (increases ndim by 1).
+
+Question:
+What is an LSTM and what problem does it solve?
+Reasoning:
+LSTM (Long Short-Term Memory) is an RNN variant with gates (input, forget, output) that allow selective memory. Solves vanishing gradient in vanilla RNNs, enabling learning of long-range dependencies.
+Answer:
+RNN with gates that preserve long-range dependencies; solves vanishing gradient in sequence modeling.
+
+Question:
+What does sklearn's Pipeline prevent when used correctly?
+Reasoning:
+Pipeline prevents data leakage by ensuring the transformer (e.g., StandardScaler) is fit only on training data during cross-validation, not on the validation fold.
+Answer:
+Prevents leakage by fitting transformers only on training fold during CV.
+
+Question:
+What is the difference between a generative and discriminative model?
+Reasoning:
+Discriminative: models P(y|X) directly — learns decision boundary. Examples: logistic regression, SVM. Generative: models P(X|y) and P(y), then applies Bayes. Examples: Naive Bayes, GANs.
+Answer:
+Discriminative: models P(y|X). Generative: models P(X|y). Naive Bayes is generative.
+
+Question:
+What does pandas.isna() do?
+Reasoning:
+pandas.isna() returns a boolean DataFrame/Series with True where values are NaN and False otherwise. Used to identify missing values.
+Answer:
+Returns boolean mask: True where NaN/None.
+
+Question:
+What is weight sharing in neural networks?
+Reasoning:
+Weight sharing means the same weights are used across different parts of the input (e.g., in CNNs, the same filter is applied at every position). Reduces parameters and encodes translation invariance.
+Answer:
+Same weights reused at different positions; reduces parameters and encodes invariance (CNNs).
+
+Question:
+What is K-fold cross-validation edge case with small datasets?
+Reasoning:
+With very small datasets, even k=5 folds may leave too few samples per fold for stable estimates. Use leave-one-out CV (LOO-CV) for very small datasets: each sample is the validation set once.
+Answer:
+For very small datasets, use LOO-CV (k=n); standard k-fold may give unstable estimates.
+
+Question:
+What does the R-squared metric measure in regression?
+Reasoning:
+R^2 = 1 - SS_res/SS_tot. Measures what fraction of variance in the target is explained by the model. 1.0 = perfect fit; 0.0 = model just predicts the mean; negative = worse than mean.
+Answer:
+Fraction of variance explained by model. 1.0 = perfect; negative = worse than baseline mean.
+
+Question:
+What is the purpose of a confusion matrix for multi-class classification?
+Reasoning:
+For N classes, the confusion matrix is N×N. Each row represents actual class; each column predicted. The diagonal shows correct predictions; off-diagonal are misclassifications.
+Answer:
+N×N matrix; diagonal = correct predictions; off-diagonal = misclassifications per class pair.
+
+Question:
+What does pandas.cut vs pandas.qcut do?
+Reasoning:
+cut divides data into equal-width bins. qcut divides data into quantile-based bins (equal frequency). cut is sensitive to outliers; qcut handles skewed distributions better.
+Answer:
+cut: equal-width bins. qcut: equal-frequency (quantile) bins.
+
+Question:
+What is attention mechanism in transformers?
+Reasoning:
+Attention computes a weighted sum of value vectors, where weights (attention scores) reflect how relevant each key is to the query. Allows model to focus on relevant parts of the input.
+Answer:
+Computes weighted sum over values using query-key similarity scores; enables dynamic focus.
+
+Question:
+What is the purpose of the kernel in SVM?
+Reasoning:
+The kernel function computes similarity in a higher-dimensional space without explicitly mapping data there (kernel trick). Enables SVM to find non-linear decision boundaries.
+Answer:
+Kernel trick computes high-dimensional similarity without explicit mapping; enables non-linear SVM.
+
+Question:
+What does numpy.unique return?
+Reasoning:
+numpy.unique returns sorted unique elements of an array. With return_counts=True, also returns the count of each unique element.
+Answer:
+Sorted unique elements. With return_counts=True, also returns counts.
+
+Question:
+What is the difference between a validation loss that increases vs plateaus?
+Reasoning:
+Increasing val loss = overfitting (use early stopping, regularization, less complex model). Plateauing val loss = model has converged; diminishing returns from more training.
+Answer:
+Increasing = overfitting; plateauing = convergence. Both signal to stop training.
+
+Question:
+What does sklearn's Pipeline with GridSearchCV look like structurally?
+Reasoning:
+GridSearchCV wraps a Pipeline. Param names use double underscore: 'step_name__param'. GridSearchCV fits the pipeline on each CV fold using only train data, preventing leakage.
+Answer:
+Params use 'stepname__param' syntax. GridSearchCV(Pipeline([...]), param_grid={'step__param':[...]}).
+
+Question:
+What is the difference between correlation and causation in feature selection?
+Reasoning:
+Correlation means two variables move together statistically. Causation means one variable directly influences another. Correlated features are useful predictors but do not imply causal relationships.
+Answer:
+Correlation ≠ causation. Correlated features may predict well without causal relationship.
+
+Question:
+What is quantization in deep learning?
+Reasoning:
+Quantization reduces model size by representing weights in lower precision (e.g., float32 → int8). Reduces memory and speeds up inference with minimal accuracy loss.
+Answer:
+Uses lower-precision weights (int8) to reduce model size and speed up inference.
+
+Question:
+What is the purpose of the __new__ method in Python?
+Reasoning:
+__new__ is the actual constructor — it creates and returns a new instance. __init__ then initializes it. Rarely overridden; useful for singletons or immutable types like int subclasses.
+Answer:
+__new__ creates the instance; __init__ initializes it. Override __new__ for singleton/immutable patterns.
+
+Question:
+What does pd.DataFrame.apply(func, axis=1) do?
+Reasoning:
+apply with axis=1 applies func to each row of the DataFrame (passing each row as a Series). axis=0 would apply to each column.
+Answer:
+Applies func to each row (axis=1) or column (axis=0).
+
+Question:
+What is the difference between a model's capacity and its generalization?
+Reasoning:
+Capacity is how complex a model can be (number of parameters). High capacity can fit training data well but may not generalize. Generalization is how well the model performs on unseen data.
+Answer:
+Capacity = complexity (parameters). Generalization = performance on unseen data. Excess capacity → overfitting.
+
+Question:
+What does numpy.argmin do?
+Reasoning:
+numpy.argmin returns the index of the minimum value along an axis. Edge case: for 2D arrays, specify axis; without axis, returns index in the flattened array.
+Answer:
+Returns index of minimum value. Without axis, operates on flattened array.
+
+Question:
+What is the purpose of embeddings in NLP?
+Reasoning:
+Embeddings map discrete tokens (words, characters) to dense continuous vectors in a lower-dimensional space. Capture semantic relationships — similar words have similar embeddings.
+Answer:
+Map tokens to dense vectors capturing semantic similarity. Trainable or pretrained (Word2Vec, GloVe).
+
+Question:
+What is the difference between precision@k and recall@k in ranking?
+Reasoning:
+Precision@k = fraction of top-k recommendations that are relevant. Recall@k = fraction of all relevant items found in top-k. Trade-off: higher k increases recall but may lower precision.
+Answer:
+P@k = relevant / k. R@k = relevant in top-k / total relevant. Trade-off as k changes.
+
+Question:
+What does pandas.pivot_table do?
+Reasoning:
+pivot_table creates a spreadsheet-style table by aggregating values from a DataFrame. Specify index (rows), columns, values, and aggfunc (e.g., 'mean').
+Answer:
+Aggregates data into a cross-tabulation table with specified rows, columns, and aggregation function.
+
+Question:
+What is the purpose of the __getitem__ method?
+Reasoning:
+__getitem__(self, key) enables subscript notation on custom objects: obj[key]. Used to create custom data structures that behave like lists or dicts.
+Answer:
+Enables obj[key] syntax on custom objects.
+
+Question:
+What is label smoothing in classification?
+Reasoning:
+Label smoothing replaces hard 0/1 targets with soft targets (e.g., 0.1/0.9). Reduces overconfidence, improves calibration, and acts as regularization by preventing the model from being too certain.
+Answer:
+Softens hard 0/1 targets to reduce overconfidence and improve calibration.
+
+Question:
+What does itertools.groupby do?
+Reasoning:
+itertools.groupby groups consecutive elements of a sorted iterable with the same key. Important edge case: the iterable must be sorted by the key first, or groups will be fragmented.
+Answer:
+Groups consecutive same-key elements. Must sort by key first or groups fragment.
+
+Question:
+What is the output of {x: x**2 for x in range(4)}?
+Reasoning:
+Dict comprehension maps each x to x**2: 0→0, 1→1, 2→4, 3→9.
+Answer:
+{0:0, 1:1, 2:4, 3:9}
+
+Question:
+What does the concept of dead neurons mean in ReLU networks?
+Reasoning:
+A ReLU neuron is dead if it outputs 0 for all inputs (because the pre-activation is always negative). It receives no gradient and stops learning. Mitigated by Leaky ReLU or careful init.
+Answer:
+ReLU neurons that always output 0 and receive no gradient. Fix: Leaky ReLU or good initialization.
+
+Question:
+What does pandas.melt do?
+Reasoning:
+melt unpivots a DataFrame from wide format to long format by converting column headers into a single 'variable' column and their values into a 'value' column.
+Answer:
+Converts wide DataFrame to long format; column names become variable values.
+
+Question:
+What is the difference between classification and regression loss functions?
+Reasoning:
+Classification uses cross-entropy (log loss) to penalize wrong probability assignments. Regression uses MSE or MAE to penalize distance between predicted and actual numeric values.
+Answer:
+Classification: cross-entropy. Regression: MSE or MAE.
+
+Question:
+What is the output of sorted([2,1,3], reverse=True)?
+Reasoning:
+sorted with reverse=True returns elements in descending order.
+Answer:
+[3,2,1]
+
+Question:
+What does the t-SNE algorithm do?
+Reasoning:
+t-SNE (t-distributed Stochastic Neighbor Embedding) reduces high-dimensional data to 2D/3D for visualization by preserving local neighborhood structure. Not suitable for downstream ML as it is not deterministic.
+Answer:
+Reduces dimensions for visualization preserving local structure. Not for ML features — only for visualization.
+
+Question:
+What is the purpose of numpy.random.seed?
+Reasoning:
+Setting a random seed ensures reproducibility: the same sequence of random numbers is generated each run. Use at the start of experiments for consistent results.
+Answer:
+Ensures reproducible random number sequences. Set once at start of experiment.
+
+Question:
+What does balanced_accuracy_score account for that accuracy does not?
+Reasoning:
+balanced_accuracy_score averages recall per class, giving equal weight to each class regardless of size. Standard accuracy is dominated by majority class in imbalanced datasets.
+Answer:
+Averages recall per class; equal class weights. Better than accuracy for imbalanced data.
+
+Question:
+What is feature extraction vs feature engineering?
+Reasoning:
+Feature extraction: derives features from raw data automatically (e.g., CNN learns image features). Feature engineering: manually creates features using domain knowledge (e.g., creating 'age_group' from age).
+Answer:
+Extraction: automated (CNNs, PCA). Engineering: manual domain-knowledge-based feature creation.
+
+Question:
+What does pandas.Series.value_counts() do?
+Reasoning:
+value_counts() counts the occurrences of each unique value in the Series and returns them in descending order of frequency.
+Answer:
+Returns unique value counts in descending order.
+
+Question:
+What does the chain rule mean for backpropagation?
+Reasoning:
+Backpropagation applies the chain rule to compute gradients of the loss with respect to each parameter by multiplying local gradients through the computation graph.
+Answer:
+Chain rule computes d_loss/d_param by multiplying local gradients backward through the network.
+
+Question:
+What is the output of max(range(5), key=lambda x:-x)?
+Reasoning:
+key=-x makes 0 have the largest key (-0=0 is largest among negatives is wrong — -0=0, -1=-1, -4=-4). Actually -x for x=0 gives 0, which is largest negative: 0 > -1 > -2 > -3 > -4.
+Answer:
+0 (key=-x gives 0 for x=0, which is max among 0,-1,-2,-3,-4)
+
+Question:
+What is the difference between __getattr__ and __getattribute__?
+Reasoning:
+__getattribute__ is called on every attribute access. __getattr__ is called only when the attribute is NOT found through normal means. Overriding __getattribute__ carelessly can cause infinite recursion.
+Answer:
+__getattribute__: every access. __getattr__: fallback when attribute missing.
+
+Question:
+What does sys.getsizeof(x) measure?
+Reasoning:
+sys.getsizeof returns the memory size of an object in bytes, including its overhead. It does NOT account for the size of referenced objects (use tracemalloc for deep size).
+Answer:
+Returns shallow memory size in bytes. Does not include referenced objects.
+
+Question:
+What is the difference between io.StringIO and io.BytesIO?
+Reasoning:
+StringIO is an in-memory text stream (works with str). BytesIO is an in-memory binary stream (works with bytes). Both behave like file objects without touching disk.
+Answer:
+StringIO: in-memory text (str). BytesIO: in-memory binary (bytes).
+
+Question:
+What does functools.wraps do and why is it needed?
+Reasoning:
+When wrapping a function inside a decorator, the wrapper replaces the original's __name__, __doc__, etc. @functools.wraps(func) copies these metadata attributes to the wrapper, preserving introspection.
+Answer:
+@functools.wraps copies __name__, __doc__ and other metadata from wrapped function to wrapper.
+
+Question:
+What is the output of type(type)?
+Reasoning:
+type is its own metaclass. type(type) returns type itself.
+Answer:
+<class 'type'>
+
+Question:
+What does object.__dict__ contain for a class vs an instance?
+Reasoning:
+For a class, __dict__ holds class-level attributes and methods. For an instance, __dict__ holds instance-specific attributes set via self. Class attributes are not duplicated in instance __dict__.
+Answer:
+Class __dict__: class attrs/methods. Instance __dict__: only instance-specific attrs set with self.
+
+Question:
+What is a metaclass in Python?
+Reasoning:
+A metaclass is the class of a class. It controls how classes are created. By default, the metaclass is type. Custom metaclasses override __new__ or __init__ on type to customize class creation.
+Answer:
+Class whose instances are classes. Default metaclass is type. Used to customize class creation.
+
+Question:
+What does weakref.ref do?
+Reasoning:
+weakref.ref creates a weak reference to an object. The object can be garbage collected even if the weak reference exists. Accessing a collected object via weak ref returns None.
+Answer:
+Creates a reference that doesn't prevent GC. Returns None after the object is collected.
+
+Question:
+What is the output of hash(frozenset({1,2,3}))?
+Reasoning:
+frozenset is immutable and hashable. hash() returns an integer. The exact value is implementation-dependent, but it will be consistent within a session.
+Answer:
+An integer (implementation-defined). frozenset is hashable; set is not.
+
+Question:
+What does dataclasses.field(default_factory=list) do?
+Reasoning:
+Using a mutable default (like []) in a dataclass field causes the same shared-object bug as mutable default args. field(default_factory=list) creates a fresh list per instance.
+Answer:
+Creates a new list per instance, avoiding shared mutable default bug.
+
+Question:
+What is the difference between classmethod and a regular method when inherited?
+Reasoning:
+A regular method always passes the instance of the class it was called on. A classmethod passes the class (cls) on which it was called, not the class that defined it — enabling polymorphic factory methods.
+Answer:
+classmethod receives the calling class (not the defining class), enabling subclass-aware factory methods.
+
+Question:
+What does __enter__ returning self enable?
+Reasoning:
+When __enter__ returns self, the as clause in a with statement binds the context manager object itself to the target variable, allowing access to its attributes/methods inside the block.
+Answer:
+Allows `with Obj() as o:` to bind the CM object to o for use inside the block.
+
+Question:
+What is the output of not [] and not {}?
+Reasoning:
+not [] = True (empty list is falsy). not {} = True (empty dict is falsy). True and True = True.
+Answer:
+True
+
+Question:
+What does Python's dis module do?
+Reasoning:
+dis disassembles Python bytecode into human-readable CPython instructions. Useful for understanding performance at the bytecode level.
+Answer:
+Disassembles Python functions into CPython bytecode instructions for inspection.
+
+Question:
+What is the difference between a coroutine and a generator in Python?
+Reasoning:
+Generators yield values to the caller. Coroutines (async def / await) are designed for asynchronous programming, yielding control to an event loop rather than just producing values.
+Answer:
+Generators: yield values. Coroutines: yield control to event loop for async concurrency.
+
+Question:
+What is the time complexity of Python's dict.update()?
+Reasoning:
+dict.update() inserts or updates k key-value pairs. Each insertion is O(1) average. Total: O(k) where k is the number of items in the argument.
+Answer:
+O(k) where k = number of items being added.
+
+Question:
+What is a deque and when should you use it over a list?
+Reasoning:
+collections.deque is a doubly-linked list supporting O(1) append and popleft from both ends. Use it when you need a queue (FIFO) or sliding window; list popleft is O(n).
+Answer:
+O(1) append and popleft from both ends. Prefer deque over list for queue/FIFO operations.
+
+Question:
+How does Python implement set intersection efficiently?
+Reasoning:
+Python iterates over the smaller set and checks each element against the larger set's hash table. This is O(min(len(A), len(B))) on average.
+Answer:
+Iterates smaller set, checks against larger. O(min(|A|,|B|)) average.
+
+Question:
+What is a trie (prefix tree) and what problem does it solve?
+Reasoning:
+A trie stores strings character by character. Each node represents a prefix. Supports O(L) search, insert, and prefix queries where L = string length. Efficient for autocomplete and spell check.
+Answer:
+Tree of characters. O(L) insert/search. Efficient for prefix queries and autocomplete.
+
+Question:
+What is the difference between BFS and DFS for graph traversal?
+Reasoning:
+BFS uses a queue; explores layer by layer. Finds shortest path in unweighted graphs. DFS uses a stack (or recursion); explores as deep as possible. Better for connected components and cycle detection.
+Answer:
+BFS: queue, shortest path in unweighted graphs. DFS: stack, cycle detection, topological sort.
+
+Question:
+What is the time complexity of Dijkstra's algorithm?
+Reasoning:
+Dijkstra's with a binary heap: O((V+E) log V). With a Fibonacci heap: O(E + V log V). V = vertices, E = edges. Works only for non-negative edge weights.
+Answer:
+O((V+E) log V) with a binary heap. Requires non-negative weights.
+
+Question:
+What is memoization vs tabulation (bottom-up DP)?
+Reasoning:
+Memoization: top-down recursion with caching. Computes only needed subproblems. Tabulation: fills a table from base cases up. More cache-friendly, avoids recursion overhead.
+Answer:
+Memoization: top-down, recursive, lazy. Tabulation: bottom-up, iterative, no stack overhead.
+
+Question:
+What is the output of collections.deque([1,2,3], maxlen=2)?
+Reasoning:
+deque with maxlen=2 evicts from the opposite end when full. Starting with [1,2,3] and maxlen=2: 1 is discarded, leaving [2,3].
+Answer:
+deque([2, 3], maxlen=2)
+
+Question:
+What is amortized O(1) for list.append?
+Reasoning:
+list.append is usually O(1), but occasionally O(n) when the array doubles in size. Amortized over many appends, the average cost per operation is O(1) because doublings happen exponentially rarely.
+Answer:
+Occasional O(n) resize amortizes to O(1) per append across many operations.
+
+Question:
+What is the difference between a stack and a queue?
+Reasoning:
+Stack: LIFO (Last In First Out). Push/pop from the same end. DFS uses stacks. Queue: FIFO (First In First Out). Enqueue at back, dequeue from front. BFS uses queues.
+Answer:
+Stack: LIFO (push/pop same end). Queue: FIFO (enqueue back, dequeue front).
+
+Question:
+What is the difference between threading and multiprocessing in Python?
+Reasoning:
+threading uses OS threads sharing the same memory; GIL prevents parallel CPU execution. multiprocessing spawns separate processes with separate memory; bypasses GIL for true CPU parallelism.
+Answer:
+threading: shared memory, GIL-limited for CPU. multiprocessing: separate processes, true CPU parallelism.
+
+Question:
+What does asyncio.gather do?
+Reasoning:
+asyncio.gather runs multiple coroutines concurrently in the event loop and returns all results when all complete. If one raises an exception, all are cancelled by default.
+Answer:
+Runs multiple coroutines concurrently; returns all results when all complete.
+
+Question:
+What is the difference between asyncio.sleep and time.sleep in async code?
+Reasoning:
+time.sleep blocks the entire thread, stalling the event loop. asyncio.sleep yields control back to the event loop, allowing other coroutines to run during the wait.
+Answer:
+time.sleep blocks event loop. asyncio.sleep yields control; use it in async code.
+
+Question:
+What does concurrent.futures.ThreadPoolExecutor do?
+Reasoning:
+ThreadPoolExecutor manages a pool of threads. Submit tasks with .submit() (returns Future) or .map(). Good for I/O-bound tasks. GIL prevents benefit for CPU-bound tasks.
+Answer:
+Thread pool for I/O-bound tasks. Submit tasks via .submit() or .map(). Not ideal for CPU-bound work.
+
+Question:
+What is a race condition and how do you prevent it in Python?
+Reasoning:
+A race condition occurs when two threads access shared data simultaneously and the outcome depends on timing. Prevent with threading.Lock: acquire before critical section, release after.
+Answer:
+Shared state modified by multiple threads with time-dependent outcome. Fix with threading.Lock.
+
+Question:
+What does pathlib.Path offer over os.path?
+Reasoning:
+pathlib.Path provides an object-oriented API for file paths. Supports / operator for joining, .read_text(), .write_text(), .exists(), .suffix, etc. More readable than os.path string operations.
+Answer:
+OOP path API. Use / for joining, .read_text(), .suffix, .exists(). More readable than os.path.
+
+Question:
+What does open(file, 'a') do vs 'w'?
+Reasoning:
+'w' opens file for writing and truncates (erases) existing content. 'a' opens for appending — writes are added to the end without erasing existing content.
+Answer:
+'w' truncates and overwrites; 'a' appends to existing content.
+
+Question:
+What is the difference between os.path.exists and os.path.isfile?
+Reasoning:
+os.path.exists returns True for any path (file, directory, symlink). os.path.isfile returns True only if the path exists and is a regular file (not a directory).
+Answer:
+exists: True for any path type. isfile: True only for regular files.
+
+Question:
+What does shutil.copy vs shutil.copy2 do?
+Reasoning:
+shutil.copy copies file content and permissions. shutil.copy2 also preserves metadata (timestamps). Use copy2 when you need an exact metadata-preserving copy.
+Answer:
+copy: content + permissions. copy2: also preserves metadata (timestamps).
+
+Question:
+What does json.loads vs json.load do?
+Reasoning:
+json.loads parses a JSON string. json.load reads and parses from a file object. Edge case: json.loads on bytes requires Python 3.6+.
+Answer:
+json.loads: parse string. json.load: parse from file object.
+
+Question:
+What does unittest.mock.patch do?
+Reasoning:
+patch temporarily replaces a named attribute (e.g., a function or class) in the target module with a Mock object during a test. Restores the original after the test completes.
+Answer:
+Temporarily replaces an object with a Mock for testing; restores original afterward.
+
+Question:
+What is the difference between assert and unittest assertions?
+Reasoning:
+Plain assert raises AssertionError with limited info on failure. unittest assertions (e.g., assertEqual) provide detailed failure messages, type-specific comparisons, and are integrated with test runners.
+Answer:
+unittest assertions give better failure messages and integrate with test frameworks. Prefer them over bare assert.
+
+Question:
+What does pytest.mark.parametrize do?
+Reasoning:
+@pytest.mark.parametrize lets you run the same test function with multiple input combinations, reducing duplicate test code. Each set of parameters is an independent test case.
+Answer:
+Runs a test function with multiple parameter sets; each is an independent test.
+
+Question:
+What is a fixture in pytest?
+Reasoning:
+A fixture is a function decorated with @pytest.fixture that provides setup/teardown for tests. Tests declare fixtures as arguments; pytest injects them automatically.
+Answer:
+Setup/teardown provider injected into tests as function arguments. Scoped to function/module/session.
+
+Question:
+What is the purpose of setUp and tearDown in unittest?
+Reasoning:
+setUp runs before each test method to set up fresh state. tearDown runs after each test method for cleanup. Ensures test isolation.
+Answer:
+setUp: runs before each test. tearDown: runs after each test. Ensures isolation.
+
+Question:
+What does __all__ do in a Python module?
+Reasoning:
+__all__ is a list of names that are exported when a client does `from module import *`. Names not in __all__ are not imported. Also serves as documentation of the public API.
+Answer:
+Defines the public API exported by `from module import *`.
+
+Question:
+What is the difference between pip install and pip install -e?
+Reasoning:
+pip install installs a package to site-packages. pip install -e (editable) installs a package in development mode — changes to source are immediately reflected without reinstalling.
+Answer:
+pip install -e installs in editable mode; source changes take effect immediately.
+
+Question:
+What does if __name__ == '__main__': do?
+Reasoning:
+__name__ is '__main__' only when the file is run directly. When imported as a module, __name__ is the module name. This guard prevents code from running on import.
+Answer:
+Guards code from running when the file is imported; runs only when executed directly.
+
+Question:
+What does __init__.py do in a package?
+Reasoning:
+__init__.py marks a directory as a Python package. It runs when the package is imported. Can be empty or contain initialization code and __all__.
+Answer:
+Marks directory as a package; runs on import. Can expose package-level API.
+
+Question:
+What is the difference between numpy's axis=0 and axis=1 for sum?
+Reasoning:
+numpy.sum(arr, axis=0) sums along rows (collapses rows, giving column totals). axis=1 sums along columns (collapses columns, giving row totals).
+Answer:
+axis=0: column-wise sums (collapses rows). axis=1: row-wise sums (collapses columns).
+
+Question:
+What does numpy.einsum('ij,jk->ik', A, B) compute?
+Reasoning:
+einsum with 'ij,jk->ik' performs matrix multiplication: sum over the shared index j. Equivalent to numpy.dot(A,B). einsum is flexible for more complex operations.
+Answer:
+Matrix multiplication A@B; sums over shared index j.
+
+Question:
+What is the difference between numpy.copy and view?
+Reasoning:
+A view shares the same data buffer; changes in view affect the original. A copy has its own buffer. Slicing an array creates a view; explicit numpy.copy() creates an independent copy.
+Answer:
+View: shares data buffer, changes propagate. Copy: independent buffer. Slices are views.
+
+Question:
+What does numpy.clip(a, a_min, a_max) do?
+Reasoning:
+clip constrains all values in array a to be between a_min and a_max. Values below a_min are set to a_min; above a_max are set to a_max.
+Answer:
+Clamps values to [a_min, a_max]. Values outside range are set to boundary.
+
+Question:
+What is the difference between numpy.zeros and numpy.empty?
+Reasoning:
+zeros initializes array with all zeros. empty allocates memory without initializing (faster but contains garbage values). Use zeros/ones when initialization is needed.
+Answer:
+zeros: all zeros. empty: uninitialized (faster but garbage values); never assume content.
+
+Question:
+What does numpy.tile(A, 2) do?
+Reasoning:
+numpy.tile repeats array A a given number of times along each axis. tile(A, 2) repeats A twice side-by-side along the last axis.
+Answer:
+Repeats array A along axes; tile(A, 2) doubles A horizontally.
+
+Question:
+What does numpy.linalg.norm(v) compute?
+Reasoning:
+By default, numpy.linalg.norm(v) computes the L2 (Euclidean) norm: sqrt(sum(x^2)). You can specify ord for L1, L-inf, or matrix norms.
+Answer:
+L2 (Euclidean) norm by default: sqrt(sum(x^2)). Use ord to change norm type.
+
+Question:
+What does numpy.cumsum([1,2,3,4]) return?
+Reasoning:
+cumsum returns the cumulative sum: [1, 1+2, 1+2+3, 1+2+3+4] = [1, 3, 6, 10].
+Answer:
+[1, 3, 6, 10]
+
+Question:
+What does pandas.DataFrame.pipe do?
+Reasoning:
+.pipe(func) passes the DataFrame as the first argument to func. Enables method-chaining of custom functions: df.pipe(clean).pipe(transform).pipe(model).
+Answer:
+Passes DataFrame to a function, enabling clean method chaining of custom transforms.
+
+Question:
+What does pandas.crosstab do?
+Reasoning:
+crosstab computes a cross-tabulation (frequency table) of two or more categorical variables. By default counts occurrences; can normalize to proportions.
+Answer:
+Frequency table of two categorical variables; can normalize to percentages.
+
+Question:
+What is the difference between pandas assign and direct column assignment?
+Reasoning:
+df.assign(col=val) returns a new DataFrame with the added column, preserving the original. Direct df['col']=val modifies the DataFrame in place. assign is better for chaining.
+Answer:
+assign returns new DataFrame (chain-friendly); direct assignment mutates in place.
+
+Question:
+What does pandas.get_dummies do?
+Reasoning:
+get_dummies one-hot encodes categorical columns into binary indicator columns. Use drop_first=True to avoid multicollinearity (dummy variable trap).
+Answer:
+One-hot encodes categorical columns. Use drop_first=True to avoid multicollinearity.
+
+Question:
+What is the SettingWithCopyWarning in pandas?
+Reasoning:
+It warns that you are trying to modify a value in a copy of a DataFrame slice, not the original. Use .loc[row, col] = value on the original DataFrame to avoid it.
+Answer:
+Warns that modifying a slice copy doesn't affect original. Fix: use .loc[] on original DataFrame.
+
+Question:
+What does pandas.DataFrame.explode do?
+Reasoning:
+explode transforms each element of a list-like column into a row, replicating the index. Useful for normalizing nested list data.
+Answer:
+Expands list-like column values into separate rows.
+
+Question:
+What is the difference between parametric and non-parametric models?
+Reasoning:
+Parametric models assume a fixed functional form with a finite number of parameters (e.g., linear regression). Non-parametric models adapt complexity to data size (e.g., KNN, kernel SVM); no fixed parameter count.
+Answer:
+Parametric: fixed parameters, assumes form. Non-parametric: complexity grows with data.
+
+Question:
+What is Bayesian optimization for hyperparameter tuning?
+Reasoning:
+Bayesian optimization models the objective function with a probabilistic surrogate (e.g., Gaussian Process). Uses past results to intelligently choose the next point, converging faster than grid search.
+Answer:
+Uses a probabilistic model of the objective to choose next hyperparameters intelligently; more efficient than grid search.
+
+Question:
+What is the difference between hard and soft margin SVM?
+Reasoning:
+Hard margin SVM requires perfect linear separation — fails with noise. Soft margin SVM (parameter C) allows some misclassifications. High C: few misclassifications (high variance). Low C: more tolerance (high bias).
+Answer:
+Hard margin: no misclassification allowed. Soft margin: allows violations controlled by C.
+
+Question:
+What is the difference between RMSE and MAE?
+Reasoning:
+RMSE = sqrt(MSE); penalizes large errors more due to squaring. MAE = mean of absolute errors; treats all errors equally. RMSE is more sensitive to outliers.
+Answer:
+RMSE penalizes large errors more. MAE treats all errors equally. RMSE > MAE when outliers exist.
+
+Question:
+What is out-of-bag (OOB) error in Random Forest?
+Reasoning:
+In bagging, each tree is trained on a bootstrap sample, leaving ~37% of samples out. OOB error uses these out-of-bag samples as the validation set for each tree — a free cross-validation estimate.
+Answer:
+~37% of samples not used per tree form the OOB set; used as a built-in validation estimate.
+
+Question:
+What does the n_estimators parameter control in Random Forest?
+Reasoning:
+n_estimators sets the number of trees. More trees = lower variance but higher computation. Performance improves up to a point then plateaus. More is rarely harmful but slows training.
+Answer:
+Number of trees. More trees reduce variance but increase compute. Set as high as budget allows.
+
+Question:
+What is the difference between LogisticRegression and LinearSVC in sklearn?
+Reasoning:
+LogisticRegression optimizes log-loss and outputs calibrated probabilities. LinearSVC optimizes hinge loss and outputs decision function scores (no calibrated probabilities). LinearSVC is often faster on large data.
+Answer:
+LogisticRegression: log-loss, calibrated probabilities. LinearSVC: hinge loss, faster, no probability output.
+
+Question:
+What is an ROC curve and how is it drawn?
+Reasoning:
+Plot True Positive Rate (recall) vs False Positive Rate at all classification thresholds. Each threshold gives a (FPR, TPR) point. Ideal curve hugs the top-left corner (AUC=1).
+Answer:
+Plots TPR vs FPR across thresholds. Top-left corner = perfect. AUC = area under curve.
+
+Question:
+What does max_depth control in a decision tree?
+Reasoning:
+max_depth limits the number of levels in the tree. Shallow tree: high bias, low variance (underfitting). Deep tree: low bias, high variance (overfitting). Tune via CV.
+Answer:
+Limits tree depth. Shallow = high bias. Deep = high variance. Tune with cross-validation.
+
+Question:
+What is a Gaussian Naive Bayes classifier's assumption?
+Reasoning:
+Gaussian Naive Bayes assumes features are conditionally independent given the class, and each feature follows a Gaussian (normal) distribution within each class.
+Answer:
+Features are conditionally independent given class, and each follows a Gaussian distribution.
+
+Question:
+What is the purpose of calibration in probabilistic classifiers?
+Reasoning:
+A model is calibrated if its predicted probabilities match empirical frequencies. Calibration Curve (reliability diagram) checks this. Use CalibratedClassifierCV to fix poorly calibrated models.
+Answer:
+Ensures predicted probabilities match actual frequencies. Use CalibratedClassifierCV for calibration.
+
+Question:
+What does sklearn's PolynomialFeatures do?
+Reasoning:
+PolynomialFeatures generates polynomial and interaction terms from input features. degree=2 adds x1^2, x2^2, x1*x2 etc. Allows linear models to fit non-linear patterns.
+Answer:
+Generates polynomial and interaction features. Enables linear models to fit non-linear patterns.
+
+Question:
+What is the difference between ExtraTreesClassifier and RandomForestClassifier?
+Reasoning:
+Random Forest splits on the best threshold for a random subset of features. ExtraTrees (Extremely Randomized Trees) uses random thresholds, making it faster and adding more variance reduction.
+Answer:
+ExtraTrees uses random thresholds (not best threshold); faster and more randomized than Random Forest.
+
+Question:
+What does sklearn's SelectKBest do?
+Reasoning:
+SelectKBest selects the top k features based on a scoring function (e.g., f_classif for ANOVA F-value, mutual_info_classif). Used in feature selection pipelines.
+Answer:
+Selects top k features by a scoring function; used for feature selection in pipelines.
+
+Question:
+What is the bias of a constant prediction model?
+Reasoning:
+A model that always predicts the mean of y has zero variance but high bias. It cannot capture any signal. Its MSE equals the variance of y (the irreducible + bias error).
+Answer:
+Always predicts mean: zero variance, high bias. MSE equals variance of y.
+
+Question:
+What is the role of the loss function in neural network training?
+Reasoning:
+The loss function measures how wrong the model's predictions are. Its gradient with respect to parameters is computed during backpropagation to update weights in the direction that reduces loss.
+Answer:
+Quantifies prediction error; its gradient drives parameter updates via backpropagation.
+
+Question:
+What is weight tying in language models?
+Reasoning:
+Weight tying shares the same weights between the input embedding matrix and the output projection layer. Reduces parameters, improves generalization, and is standard in many language models.
+Answer:
+Shares embedding and output projection weights; reduces parameters and improves generalization.
+
+Question:
+What does gradient accumulation do in training?
+Reasoning:
+Gradient accumulation computes gradients over multiple mini-batches before performing an optimizer step. Simulates a larger effective batch size on limited GPU memory.
+Answer:
+Accumulates gradients over N steps before updating; simulates larger batch size with limited memory.
+
+Question:
+What is the difference between model.eval() and torch.no_grad()?
+Reasoning:
+model.eval() sets layers like Dropout and BatchNorm to inference mode. torch.no_grad() disables gradient computation entirely. Both are needed during inference; they serve different purposes.
+Answer:
+eval(): disables Dropout/BatchNorm training behavior. no_grad(): stops gradient tracking. Use both during inference.
+
+Question:
+What is the exploding gradient problem?
+Reasoning:
+In deep or recurrent networks, gradients can grow exponentially during backpropagation. This causes parameters to take huge steps and the loss to diverge. Prevented by gradient clipping.
+Answer:
+Gradients grow exponentially in deep networks; parameters diverge. Fix: gradient clipping.
+
+Question:
+What is the purpose of a residual connection (skip connection)?
+Reasoning:
+Residual connections add the input of a layer directly to its output: out = F(x) + x. They allow gradients to flow directly through the network, mitigating vanishing gradients in deep networks.
+Answer:
+Add input to output (out = F(x)+x); allow gradient flow in deep networks, preventing vanishing gradient.
+
+Question:
+What is knowledge distillation?
+Reasoning:
+Knowledge distillation trains a smaller student model to mimic the outputs (soft targets) of a larger teacher model. The soft targets carry more information than hard labels, improving student accuracy.
+Answer:
+Train small student model to match large teacher's output distribution, not just hard labels.
+
+Question:
+What is the difference between encoder-decoder and encoder-only architectures?
+Reasoning:
+Encoder-only (e.g., BERT): reads full sequence bidirectionally; used for classification, NER. Encoder-decoder (e.g., T5): encoder reads input, decoder generates output; used for seq2seq tasks.
+Answer:
+Encoder-only: bidirectional, classification/NER. Encoder-decoder: seq2seq generation (translation, summarization).
+
+Question:
+What does layer normalization do differently from batch normalization?
+Reasoning:
+BatchNorm normalizes across the batch dimension (per feature). LayerNorm normalizes across the feature dimension (per sample). LayerNorm is preferred in transformers as it doesn't depend on batch size.
+Answer:
+BatchNorm: per feature across batch. LayerNorm: per sample across features. LayerNorm preferred in transformers.
+
+Question:
+What is a singleton pattern and how do you implement it in Python?
+Reasoning:
+A singleton ensures only one instance of a class exists. Implement by overriding __new__ to check and return the stored instance, or use a module-level variable (modules are singletons by default).
+Answer:
+Override __new__ to return a cached instance, or use a module variable. Modules are singletons by default.
+
+Question:
+What does collections.ChainMap do?
+Reasoning:
+ChainMap groups multiple dicts into a single view. Lookups search each dict in order. Writes go to the first dict. Useful for layered configurations (e.g., defaults overridden by user settings).
+Answer:
+Chains multiple dicts into one view; reads search all, writes go to first dict.
+
+Question:
+What is the output of [*range(3), *range(3)]?
+Reasoning:
+* unpacks range(3)=[0,1,2] twice. Concatenating both gives [0,1,2,0,1,2].
+Answer:
+[0, 1, 2, 0, 1, 2]
+
+Question:
+What does Python's struct module do?
+Reasoning:
+struct packs and unpacks binary data according to format strings. Useful for reading binary file formats or network protocols where data is in raw bytes.
+Answer:
+Packs/unpacks binary data to/from bytes using format strings. Useful for binary protocols/files.
+
+Question:
+What is the output of {**{'a':1,'b':2}, 'b':3}?
+Reasoning:
+** unpacks the dict. 'b':3 overwrites the unpacked 'b':2. Last writer wins in dict literal unpacking.
+Answer:
+{'a':1,'b':3}
+
+Question:
+What does contextlib.suppress do?
+Reasoning:
+contextlib.suppress(*exceptions) creates a context manager that suppresses specified exception types silently, without writing try/except blocks.
+Answer:
+Silently suppresses specified exceptions: `with suppress(FileNotFoundError): ...`
+
+Question:
+What is the difference between iter(obj) and iter(callable, sentinel)?
+Reasoning:
+iter(obj) calls obj.__iter__(). iter(callable, sentinel) repeatedly calls callable() until it returns sentinel. Useful for reading a file in chunks.
+Answer:
+iter(callable, sentinel) calls callable() repeatedly until result == sentinel.
+
+Question:
+What does operator.attrgetter do?
+Reasoning:
+operator.attrgetter('attr') returns a callable that retrieves the named attribute from objects. Useful as a sort key: sorted(objs, key=attrgetter('name')).
+Answer:
+Returns a callable that fetches a named attribute; useful as sort key.
+
+Question:
+What is the output of (-1) ** 0.5 in Python?
+Reasoning:
+In Python, (-1)**0.5 returns a complex number (6.123e-17+1j) because Python performs float exponentiation and returns complex for invalid real operations.
+Answer:
+(6.123233995736766e-17+1j) — Python returns complex result.
+
+Question:
+What is the difference between a class decorator and a function decorator?
+Reasoning:
+A function decorator wraps a function. A class decorator wraps a class, allowing modification of the class itself (e.g., adding methods or registering it). Both return the modified object.
+Answer:
+Same concept, different targets. Class decorators wrap/modify the class object itself.
+
+Question:
+What is Simpson's paradox and why does it matter in ML?
+Reasoning:
+Simpson's paradox: a trend appears in several groups but reverses when groups are combined. In ML, aggregated metrics can mislead. Always examine performance stratified by subgroups.
+Answer:
+Trend reverses when groups combined. Always evaluate metrics per subgroup, not just overall.
+
+Question:
+What is the difference between accuracy and balanced accuracy?
+Reasoning:
+Accuracy = correct / total. Balanced accuracy = average of per-class recall. With class imbalance, a model predicting majority class has high accuracy but low balanced accuracy.
+Answer:
+Accuracy: overall correct rate. Balanced accuracy: mean per-class recall. Better for imbalanced data.
+
+Question:
+What is the purpose of a Q-Q plot in regression diagnostics?
+Reasoning:
+A Q-Q (quantile-quantile) plot compares residuals' distribution to a normal distribution. If residuals are normal, points follow the diagonal. Deviations reveal non-normality assumptions violated.
+Answer:
+Checks if residuals are normally distributed; deviations from diagonal indicate violated assumptions.
+
+Question:
+What is Pearson correlation and when does it fail?
+Reasoning:
+Pearson correlation measures linear association between two variables, ranging from -1 to 1. Fails when relationships are non-linear, when outliers dominate, or when data is not bivariate normal.
+Answer:
+Measures linear correlation [-1,1]. Fails for non-linear relationships and is sensitive to outliers.
+
+Question:
+What is the difference between a hard label and a soft label in training?
+Reasoning:
+Hard labels are one-hot encoded (e.g., [0,0,1]). Soft labels are probability distributions (e.g., [0.05, 0.1, 0.85]). Soft labels provide more information and reduce overconfidence.
+Answer:
+Hard: one-hot integer labels. Soft: probability distribution labels. Soft reduces overconfidence.
+
+Question:
+What is Occam's Razor in the context of model selection?
+Reasoning:
+Prefer the simplest model that explains the data adequately. Complex models may overfit; simpler models generalize better. Regularization and model selection criteria (AIC, BIC) formalize this.
+Answer:
+Prefer simplest sufficient model. Formalized by regularization and AIC/BIC criteria.
+
+Question:
+What is the inductive bias of a linear model?
+Reasoning:
+A linear model assumes the relationship between features and target is linear. This inductive bias helps when data is truly linear but causes underfitting for non-linear patterns.
+Answer:
+Assumes linear relationship between features and target; good for linear data, bad for non-linear.
+
+Question:
+What is multi-collinearity and why is it a problem in linear regression?
+Reasoning:
+Multicollinearity occurs when features are highly correlated. It makes coefficient estimates unstable and hard to interpret. Variance Inflation Factor (VIF) detects it; use Ridge or PCA to mitigate.
+Answer:
+Highly correlated features make coefficients unstable. Detect with VIF; fix with Ridge or PCA.
+
+Question:
+What is a calibration curve?
+Reasoning:
+A calibration curve plots mean predicted probability (x-axis) vs actual fraction of positives (y-axis). A perfectly calibrated model follows the diagonal. Used to assess and correct probability estimates.
+Answer:
+Plots predicted probability vs actual positive rate. Diagonal = perfect calibration.
+
+Question:
+What is the kernel trick in SVM and why is it efficient?
+Reasoning:
+The kernel trick computes the inner product in a high-dimensional space without explicitly mapping data there. K(x,z) = phi(x)·phi(z). Avoids expensive high-dimensional feature computation.
+Answer:
+Computes high-dimensional similarity K(x,z) without explicit feature mapping; efficient for non-linear SVM.
+
+Question:
+What does re.compile do and why is it useful?
+Reasoning:
+re.compile pre-compiles a regex pattern into a Pattern object. Reusing the compiled pattern is faster than recompiling on each re.match/search call in a loop.
+Answer:
+Pre-compiles regex for faster repeated use; avoids recompilation overhead.
+
+Question:
+What does str.format(**kwargs) do?
+Reasoning:
+str.format(**kwargs) unpacks a dict into keyword arguments. Placeholders {key} in the string are replaced with their corresponding values from the dict.
+Answer:
+Unpacks dict as keyword args into format string: '{name}'.format(**{'name':'Alice'}) → 'Alice'.
+
+Question:
+What is the output of re.findall(r'\d+', 'a1b23c4')?
+Reasoning:
+re.findall returns all non-overlapping matches of \d+ (one or more digits). Matches: '1','23','4'.
+Answer:
+['1', '23', '4']
+
+Question:
+What does str.maketrans and str.translate do?
+Reasoning:
+str.maketrans creates a translation table mapping characters to replacements/deletions. str.translate applies the table to a string. Efficient for multi-character substitutions.
+Answer:
+maketrans creates a char mapping table; translate applies it efficiently to the string.
+
+Question:
+What is the difference between re.DOTALL and re.MULTILINE flags?
+Reasoning:
+re.DOTALL makes `.` match any character including newline. re.MULTILINE makes ^ and $ match start/end of each line, not just the whole string.
+Answer:
+DOTALL: . matches newline too. MULTILINE: ^ and $ match per-line boundaries.
+
+Question:
+What is the diamond problem and how does Python's MRO solve it?
+Reasoning:
+Diamond problem: D inherits from B and C, both inherit from A. Without MRO, A's methods could be called twice. Python's C3 linearization ensures each class appears once in the MRO.
+Answer:
+Multiple inheritance ambiguity. Python's C3 MRO ensures each class appears exactly once in the search order.
+
+Question:
+What does super() do without arguments in Python 3?
+Reasoning:
+In Python 3, super() with no arguments automatically determines the current class and instance. Equivalent to super(CurrentClass, self). Calls the next class in the MRO.
+Answer:
+super() in Python 3 auto-detects current class/instance; calls next class in MRO.
+
+Question:
+What is the __mro__ attribute?
+Reasoning:
+__mro__ is a tuple showing the Method Resolution Order for a class: the exact sequence Python searches for method/attribute lookups.
+Answer:
+Tuple of classes in lookup order for method resolution.
+
+Question:
+What does __del__ do and when is it called?
+Reasoning:
+__del__ is the destructor called when an object is about to be garbage collected. It is not guaranteed to be called promptly or at all (e.g., in cyclic references). Avoid relying on it for cleanup.
+Answer:
+__del__ is called before GC; not guaranteed timing. Use context managers for reliable cleanup.
+
+Question:
+What is composition over inheritance?
+Reasoning:
+Composition: build complex objects by combining simpler ones (has-a relationship). Inheritance: extend classes (is-a). Composition is more flexible, avoids tight coupling, and is generally preferred.
+Answer:
+Composition (has-a) is more flexible than inheritance (is-a); avoids tight coupling.
+
+Question:
+What is monkey patching in Python?
+Reasoning:
+Monkey patching dynamically modifies a class or module at runtime (e.g., replacing a method). Useful in testing to mock dependencies, but dangerous in production — makes code hard to understand.
+Answer:
+Dynamically replacing methods/attrs at runtime. Useful for testing; risky in production.
+
+Question:
+What does __slots__ do to class inheritance?
+Reasoning:
+If a parent defines __slots__ but a child does not, the child gets a __dict__ anyway (defeats the purpose). Both parent and child must define __slots__ for memory savings to apply through the hierarchy.
+Answer:
+Both parent and child must define __slots__ for full memory savings; child without it still gets __dict__.
+
+Question:
+What is the output of list(zip([],[]))?
+Reasoning:
+zip over two empty iterables immediately exhausts. list() of an empty zip gives [].
+Answer:
+[]
+
+Question:
+What does object.__repr__(self) fall back to by default?
+Reasoning:
+If no __repr__ is defined, Python uses object.__repr__ which returns something like <ClassName object at 0x...> — the class name and memory address.
+Answer:
+<ClassName object at 0xADDRESS> — class name and memory address.
+
+Question:
+What is the difference between is None and == None?
+Reasoning:
+is None checks identity — there is only one None object so this is correct and recommended. == None calls __eq__ which could be overridden. Always use is None.
+Answer:
+Use `is None`; it checks identity. `== None` can be overridden and is unreliable.
+
+Question:
+What does locals() return inside a function?
+Reasoning:
+locals() returns a dict of the current local symbol table — all local variables at the point of the call. Modifying the returned dict does not affect actual local variables.
+Answer:
+Returns dict of local variables; modifying it does NOT affect actual locals.
+
+Question:
+What is the output of [1,2,3,4,5][::2]?
+Reasoning:
+Slice [::2] picks every second element starting at index 0: indices 0,2,4 → 1,3,5.
+Answer:
+[1, 3, 5]
+
+Question:
+What does str.isdigit() return for '3²'?
+Reasoning:
+str.isdigit() returns True for Unicode digit characters including superscripts like ². '3²' contains a superscript 2, so isdigit() returns True. Use str.isdecimal() for strictly decimal digits only.
+Answer:
+True — isdigit includes Unicode superscripts. Use isdecimal() for strictly [0-9] digits.
+
+Question:
+What is the edge case of using += on a tuple vs a list inside a class?
+Reasoning:
+For lists, += calls list.__iadd__ (in-place). For tuples, += creates a new tuple because tuples are immutable. In a class, tuple attribute reassignment calls __setattr__ and replaces the object.
+Answer:
+List +=: in-place mutation. Tuple +=: creates new tuple and reassigns. Immutability forces a new object.
+
+Question:
+What does the expression a, *b, c = [1,2,3,4,5] produce?
+Reasoning:
+Extended unpacking: a=1 (first), c=5 (last), b captures all middle elements as a list: [2,3,4].
+Answer:
+a=1, b=[2,3,4], c=5
+
+Question:
+What does math.floor vs int() do for negative numbers?
+Reasoning:
+int(-2.7) truncates toward zero: -2. math.floor(-2.7) rounds down toward negative infinity: -3. They differ for negative non-integers.
+Answer:
+int(-2.7)=-2 (truncates). math.floor(-2.7)=-3 (rounds toward -inf).
+
+Question:
+What does functools.lru_cache(maxsize=128) evict when full?
+Reasoning:
+lru_cache uses a Least Recently Used eviction policy. When the cache is full and a new call comes in, the least recently accessed entry is evicted to make room.
+Answer:
+Evicts the least recently used entry when the cache is at maxsize.
+
+Question:
+What is the output of type(None)?
+Reasoning:
+None is an instance of NoneType. type(None) returns NoneType.
+Answer:
+<class 'NoneType'>
+
+Question:
+What does str.encode() return and what is its default encoding?
+Reasoning:
+str.encode() converts a string to bytes. The default encoding is UTF-8.
+Answer:
+Returns bytes. Default encoding is UTF-8.
+
+Question:
+What does Python's array module offer over a list?
+Reasoning:
+array.array stores homogeneous data in a compact C array, using less memory than a list of Python objects. Useful for large numerical data when numpy is not available.
+Answer:
+Compact, typed array for homogeneous data; lower memory than a list of Python objects.
+
+Question:
+What is the output of sorted(set([3,1,2,1,3]))?
+Reasoning:
+set removes duplicates: {1,2,3}. sorted returns ascending list.
+Answer:
+[1, 2, 3]
+
+Question:
+What does os.makedirs(path, exist_ok=True) do?
+Reasoning:
+os.makedirs creates directories recursively. exist_ok=True prevents raising an error if the directory already exists.
+Answer:
+Creates full directory tree recursively; exist_ok=True skips error if already exists.
+
+Question:
+What does list.sort(key=str.lower) do?
+Reasoning:
+sort is case-insensitive when key=str.lower because it compares lowercase versions. The list is sorted in-place.
+Answer:
+Sorts list in-place case-insensitively using lowercase comparison.
+
+Question:
+What is the output of 'hello'.replace('l','L',1)?
+Reasoning:
+replace with count=1 replaces only the first occurrence.
+Answer:
+'heLlo'
+
+Question:
+What does textwrap.dedent do?
+Reasoning:
+textwrap.dedent removes common leading whitespace from all lines of a string, useful for cleaning up indented multi-line strings in code.
+Answer:
+Removes common leading whitespace from all lines of a multi-line string.
+
+Question:
+What is the output of hash('hello') == hash('hello')?
+Reasoning:
+Within a single Python session, hash of the same string is consistent. So True. But hash randomization (across sessions) means the value differs per run.
+Answer:
+True within a session; absolute value varies across runs due to hash randomization.
+
+Question:
+What does zip(range(3), 'abc') return?
+Reasoning:
+Pairs range(3)=[0,1,2] with 'abc' character by character: (0,'a'),(1,'b'),(2,'c').
+Answer:
+[(0,'a'),(1,'b'),(2,'c')]
+
+Question:
+What is the edge case with float('inf') in comparisons?
+Reasoning:
+float('inf') is greater than any finite number. float('-inf') is smaller. math.isinf() detects it. nan (float('nan')) is unordered: nan != nan.
+Answer:
+inf > any finite number; nan != nan (use math.isnan() to check nan).
+
+Question:
+What does __future__ import do?
+Reasoning:
+from __future__ import feature enables language features from future Python versions in the current version. Commonly used historically for print_function, division, annotations.
+Answer:
+Enables future Python language features in the current version for forward compatibility.
+
+Question:
+What is the output of len(range(0,10,3))?
+Reasoning:
+range(0,10,3) = [0,3,6,9]. Length is 4.
+Answer:
+4
+
+Question:
+What does collections.Counter.most_common(n) return?
+Reasoning:
+most_common(n) returns the n most frequent elements and their counts as a list of (element, count) tuples, ordered by count descending.
+Answer:
+List of n (element, count) pairs ordered by frequency descending.
+
+Question:
+What does operator.itemgetter(1) do?
+Reasoning:
+operator.itemgetter(1) returns a callable that retrieves index 1 from its argument. Used as sort key: sorted(lst, key=itemgetter(1)).
+Answer:
+Returns callable that gets item at index 1. Useful as sort key.
+
+Question:
+What is the output of [None, 0, False, '', []].count(False)?
+Reasoning:
+count() uses == for comparison. False == 0 == False, but False != None, '', []. So both 0 and False match. Count is 2.
+Answer:
+2 (because 0 == False in Python)
+
+Question:
+What does re.escape do?
+Reasoning:
+re.escape(pattern) escapes all special regex characters in pattern, allowing literal string matching without treating metacharacters as regex.
+Answer:
+Escapes special regex characters for literal string matching.
+
+Question:
+What is the output of isinstance([1,2], (list, tuple))?
+Reasoning:
+isinstance accepts a tuple of types. [1,2] is a list, which is in the tuple, so True.
+Answer:
+True
+
+Question:
+What does pandas.DataFrame.describe() output?
+Reasoning:
+describe() generates descriptive statistics: count, mean, std, min, 25%/50%/75% percentiles, max for each numeric column.
+Answer:
+Summary stats per numeric column: count, mean, std, min, quartiles, max.
+
+Question:
+What is the output of 'abc' > 'abd'?
+Reasoning:
+String comparison is lexicographic. 'c' (ord 99) < 'd' (ord 100). So 'abc' < 'abd'. Result is False.
+Answer:
+False
+
+Question:
+What is a Python named expression edge case with list comprehensions?
+Reasoning:
+Walrus operator in comprehensions: [y := f(x), y**2] can leak y to the enclosing scope, unlike the loop variable which is local to the comprehension.
+Answer:
+Walrus := in comprehension leaks variable to enclosing scope; loop var is scoped to comprehension.
+
+Question:
+What does itertools.accumulate([1,2,3,4]) return?
+Reasoning:
+accumulate yields running totals: 1, 1+2=3, 3+3=6, 6+4=10.
+Answer:
+[1, 3, 6, 10]
+
+Question:
+What does the __format__ method enable?
+Reasoning:
+__format__(self, spec) allows custom objects to respond to format(obj, spec) and f-string format specs like f'{obj:.2f}'.
+Answer:
+Enables custom formatting via format() and f-string format specs.
+
+Question:
+What is the output of sum([[1,2],[3,4]], [])?
+Reasoning:
+sum(iterable, start) with start=[] concatenates lists: []+[1,2]+[3,4]=[1,2,3,4]. Note: O(n^2) — use itertools.chain.from_iterable instead.
+Answer:
+[1, 2, 3, 4] — but use itertools.chain.from_iterable for efficiency.
+
+Question:
+What does pandas.DataFrame.rename do?
+Reasoning:
+rename changes column or index labels. Pass a dict to columns or index: df.rename(columns={'old':'new'}). Returns a new DataFrame by default.
+Answer:
+Renames columns or index labels; returns new DataFrame by default.
+
+Question:
+What is the difference between break in a for loop and a while loop?
+Reasoning:
+break exits the innermost loop in both for and while. The else clause on a loop (if present) runs only if the loop was NOT exited by break.
+Answer:
+break exits innermost loop. Loop else clause runs only when loop completes without break.
+
+Question:
+What does numpy.where with only condition return?
+Reasoning:
+numpy.where(condition) with only one argument returns the indices where condition is True, as a tuple of arrays (one per dimension).
+Answer:
+Returns tuple of arrays of indices where condition is True.
+
+Question:
+What is the output of max([], default=0)?
+Reasoning:
+max on an empty sequence raises ValueError. The default keyword argument (Python 3.4+) returns default instead of raising.
+Answer:
+0
+
+Question:
+What does pd.to_datetime(['2024-01-01','2024-06-15']) do?
+Reasoning:
+pd.to_datetime parses a list of date strings into a DatetimeIndex or Series of Timestamp objects, enabling datetime arithmetic and indexing.
+Answer:
+Parses strings to Timestamp objects, enabling datetime operations.
+
+Question:
+What is the purpose of __hash__ in Python?
+Reasoning:
+__hash__ returns an integer hash of the object used by dicts and sets. Mutable objects should not be hashable. If you define __eq__, you should also define __hash__ (Python sets it to None otherwise).
+Answer:
+Returns hash integer for use in dicts/sets. Define alongside __eq__; Python sets __hash__=None if __eq__ defined without __hash__.
+
+Question:
+What does timeit.timeit do?
+Reasoning:
+timeit.timeit(stmt, number=N) runs stmt N times and returns total elapsed time. Used for microbenchmarking Python expressions.
+Answer:
+Runs code N times and returns total time; used for microbenchmarking.
+
+Question:
+What is the output of {1: 'a', 1: 'b'}?
+Reasoning:
+Duplicate keys in a dict literal: the last value wins. Key 1 maps to 'b'.
+Answer:
+{1: 'b'}
+
+Question:
+What does pandas.DataFrame.corr() return?
+Reasoning:
+corr() computes the pairwise Pearson correlation matrix of numeric columns. Values range from -1 (negative corr) to 1 (positive corr).
+Answer:
+Pairwise Pearson correlation matrix of numeric columns.
+
+Question:
+What is the output of any([])?
+Reasoning:
+any() over an empty iterable returns False — there are no elements to be truthy.
+Answer:
+False
+
+Question:
+What does all([]) return?
+Reasoning:
+all() over an empty iterable returns True — vacuously true because there are no False elements.
+Answer:
+True
+
+Question:
+What is the edge case of using mutable objects as dictionary keys?
+Reasoning:
+Only hashable (immutable) objects can be dict keys. Using a list as a key raises TypeError: unhashable type: 'list'. Use tuple instead.
+Answer:
+Mutable objects (list, dict, set) cannot be dict keys — raises TypeError. Use tuple.
+
+Question:
+What does contextlib.contextmanager let you do?
+Reasoning:
+@contextlib.contextmanager turns a generator function with a single yield into a context manager. Code before yield is __enter__; code after is __exit__.
+Answer:
+Turns a generator function (yield splits enter/exit) into a context manager.
+
+Question:
+What is the output of [x for x in range(10) if x%2==0 if x%3==0]?
+Reasoning:
+Two if clauses are ANDed. Need x divisible by 2 AND by 3, i.e., by 6. In range(10): 0 and 6.
+Answer:
+[0, 6]
+
+Question:
+What does pandas.cut(x, bins=3) do with equal_width?
+Reasoning:
+pandas.cut divides the range of x into 3 equal-width intervals and assigns each value a bin label. The number of samples per bin may not be equal.
+Answer:
+Divides range into 3 equal-width intervals; sample counts per bin may vary.
+
+Question:
+What does numpy.where(arr > 0, arr, 0) do?
+Reasoning:
+numpy.where with all 3 args: returns arr value where condition True, 0 elsewhere. This is equivalent to ReLU (clip negatives to 0).
+Answer:
+Returns arr where arr>0, else 0. Equivalent to numpy.clip(arr, 0, None) or ReLU.
+
+Question:
+What is the difference between heapq and a sorted list for a priority queue?
+Reasoning:
+heapq.heappush/heappop is O(log n). Maintaining a sorted list requires O(n) insertion (bisect.insort). For dynamic priority queues, heapq is more efficient.
+Answer:
+heapq: O(log n) push/pop. Sorted list: O(n) insert. heapq preferred for dynamic priority queues.
+
+Question:
+What does the nonlocal keyword allow?
+Reasoning:
+nonlocal allows a nested function to modify a variable from an enclosing (but not global) scope. Without it, assignment creates a new local variable instead.
+Answer:
+Allows inner function to reassign variable from enclosing function's scope.
+
+Question:
+What does re.split(r'\s+', 'a  b   c') return?
+Reasoning:
+re.split splits on one or more whitespace characters. Result: ['a','b','c'].
+Answer:
+['a', 'b', 'c']
+
+Question:
+What is the output of 'hello'.encode('ascii').decode('utf-8')?
+Reasoning:
+ASCII text encoded as bytes is valid UTF-8. Decoding with UTF-8 gives back the original string.
+Answer:
+'hello'
+
+Question:
+What does numpy.percentile(arr, 75) compute?
+Reasoning:
+percentile computes the 75th percentile (Q3) of arr: the value below which 75% of the data falls.
+Answer:
+The 75th percentile (Q3) of the array — value below which 75% of data falls.
+
+Question:
+What does pandas.DataFrame.sample(frac=0.1) do?
+Reasoning:
+sample(frac=0.1) returns a random sample of 10% of the DataFrame's rows, without replacement by default.
+Answer:
+Returns a random 10% sample of rows without replacement.
+
+Question:
+What is the output of (x for x in range(3)).__class__?
+Reasoning:
+(x for x in range(3)) creates a generator object. Its class is <class 'generator'>.
+Answer:
+<class 'generator'>
+
+Question:
+What is the purpose of __abstractmethod__ in Python?
+Reasoning:
+Decorating a method with @abc.abstractmethod in an abstract class forces concrete subclasses to implement the method. The abstract class itself cannot be instantiated.
+Answer:
+@abstractmethod requires subclasses to implement the method; prevents instantiation of abstract class.
+
+Question:
+What does numpy.apply_along_axis(func, axis, arr) do?
+Reasoning:
+Applies func to 1D slices along a specified axis. axis=0 applies func to each column; axis=1 to each row. Returns an array of results.
+Answer:
+Applies 1D function along specified axis; axis=0 = per column, axis=1 = per row.
+
+Question:
+What does str.splitlines() do vs str.split('\n')?
+Reasoning:
+splitlines splits on all universal newline characters (\n, \r\n, \r) and does not produce a trailing empty string. split('\n') only splits on \n and produces trailing empty string if string ends with \n.
+Answer:
+splitlines handles all newline variants and no trailing empty; split('\n') is literal newline only.
+
+Question:
+What is the output of max('apple','banana','cherry', key=len)?
+Reasoning:
+key=len compares by length. 'banana'=6, 'cherry'=6, 'apple'=5. max picks 'banana' (first max).
+Answer:
+'banana'
+
+Question:
+What does functools.cached_property do?
+Reasoning:
+cached_property computes the property value once on first access and stores it on the instance __dict__. Subsequent accesses return the cached value without recomputation.
+Answer:
+Computes once on first access; stores result in instance __dict__ for free subsequent access.
+
+Question:
+What does pandas.DataFrame.astype(int) do?
+Reasoning:
+astype casts all values in the DataFrame to the specified dtype (int here). Raises ValueError if values cannot be converted.
+Answer:
+Casts DataFrame values to specified dtype. Raises ValueError on unconvertible values.
+
+Question:
+What is the difference between bytes and bytearray?
+Reasoning:
+bytes is immutable. bytearray is mutable. Both represent sequences of integers (0-255). Use bytearray when you need to modify binary data in place.
+Answer:
+bytes: immutable. bytearray: mutable. Both hold 0-255 integer sequences.
+
+Question:
+What is the output of '{0} {1} {0}'.format('a','b')?
+Reasoning:
+Positional format: {0}='a', {1}='b', {0}='a' again.
+Answer:
+'a b a'
+
+Question:
+What does sklearn's Pipeline.named_steps return?
+Reasoning:
+named_steps is a dict-like attribute that maps step names to their fitted estimator objects, allowing access after fitting.
+Answer:
+Dict-like access to pipeline steps by name after fitting.
+
+Question:
+What is the difference between model.predict and model.predict_proba?
+Reasoning:
+predict returns the most likely class label. predict_proba returns probabilities for each class. Use predict_proba for calibrated probability outputs and threshold tuning.
+Answer:
+predict: class labels. predict_proba: probability per class. Use proba for threshold tuning.
+
+Question:
+What does the pandas.DataFrame.nlargest(n, col) do?
+Reasoning:
+nlargest returns the n rows with the highest values in the specified column, in descending order.
+Answer:
+Returns n rows with largest values in specified column.
+
+Question:
+What is the output of np.array([1,2,3]) * np.array([4,5,6])?
+Reasoning:
+numpy * on 1D arrays performs element-wise multiplication: 1*4=4, 2*5=10, 3*6=18.
+Answer:
+array([4, 10, 18])
+
+Question:
+What is precision-recall trade-off edge case at threshold=0.5?
+Reasoning:
+At threshold=0.5, most classifiers predict positive if probability >= 0.5. Lowering threshold increases recall but decreases precision. The optimal threshold depends on the cost of FP vs FN.
+Answer:
+Threshold=0.5 is arbitrary. Lower threshold = higher recall, lower precision. Tune based on FP/FN costs.
+
+Question:
+What does sklearn's cross_val_predict do differently from cross_val_score?
+Reasoning:
+cross_val_predict returns out-of-fold predictions for each sample (as if each was in the test fold once). cross_val_score returns scalar scores per fold, not predictions.
+Answer:
+Returns out-of-fold predictions per sample. cross_val_score returns per-fold scores.
+
+Question:
+What is the output of np.dot(np.array([1,2,3]), np.array([4,5,6]))?
+Reasoning:
+Dot product of 1D arrays: 1*4 + 2*5 + 3*6 = 4+10+18 = 32.
+Answer:
+32
+
+Question:
+What is an out-of-fold prediction and why is it useful?
+Reasoning:
+An out-of-fold prediction uses a model trained without seeing each sample to predict on it. Gives unbiased predictions for the full dataset, useful for stacking and model diagnostics.
+Answer:
+Predictions on each sample from model that never trained on it; unbiased, useful for stacking.
+
+Question:
+What does sklearn's StandardScaler.inverse_transform do?
+Reasoning:
+inverse_transform reverses the scaling: converts standardized values back to original scale using stored mean and std. Useful for interpreting predictions.
+Answer:
+Reverses standardization back to original scale using stored mean/std.
+
+Question:
+What is the Gini impurity formula?
+Reasoning:
+Gini = 1 - sum(p_i^2) where p_i is the fraction of class i in the node. 0 = pure node; 0.5 = maximally impure (two equal classes).
+Answer:
+Gini = 1 - sum(p_i^2). 0 = pure; 0.5 = max impurity for binary class.
+
+Question:
+What does numpy.random.choice(arr, size, replace=False) do?
+Reasoning:
+Samples size elements from arr without replacement (each element can be picked at most once). With replace=True, same element can be picked multiple times.
+Answer:
+Random sample of size elements; replace=False means no duplicates.
+
+Question:
+What is the difference between sparse and dense feature matrices?
+Reasoning:
+Sparse matrices store only non-zero values (e.g., scipy.sparse.csr_matrix). Dense matrices store all values. Text/TF-IDF data is highly sparse; using sparse format saves memory and speeds up computation.
+Answer:
+Sparse: stores only non-zeros (memory-efficient for high-zero data). Dense: stores all values.
+
+Question:
+What does Pipeline.fit_transform do?
+Reasoning:
+fit_transform on a Pipeline fits all transformers and the final step on training data. If the last step is a transformer, it also transforms and returns the result.
+Answer:
+Fits all steps on training data; transforms if last step is a transformer.
+
+Question:
+What is the output of np.arange(1,10,2)?
+Reasoning:
+arange(start=1, stop=10, step=2): 1,3,5,7,9.
+Answer:
+array([1, 3, 5, 7, 9])
+
+Question:
+What is weight decay in optimization?
+Reasoning:
+Weight decay adds a penalty proportional to the magnitude of weights to the loss function, equivalent to L2 regularization. It discourages large weights and helps prevent overfitting.
+Answer:
+L2 penalty added to loss; discourages large weights and reduces overfitting.
+
+Question:
+What is the output of pd.Series([1,2,3]).apply(lambda x: x**2)?
+Reasoning:
+apply runs the lambda element-wise. 1→1, 2→4, 3→9.
+Answer:
+Series([1, 4, 9])
+
+Question:
+What does numpy.meshgrid do?
+Reasoning:
+numpy.meshgrid(x, y) creates 2D grids from 1D arrays. Useful for evaluating functions over a grid of points (e.g., plotting decision boundaries).
+Answer:
+Creates 2D coordinate grids from 1D arrays; used for plotting over a 2D grid.
+
+Question:
+What is the output of bool(np.array([0]))?
+Reasoning:
+np.array([0]) is a single-element array. bool() on it returns False because the single element 0 is falsy. Multi-element arrays raise ValueError.
+Answer:
+False. Multi-element arrays raise ValueError when converted to bool.
+
+Question:
+What is a generalization gap?
+Reasoning:
+The generalization gap is the difference between training error and test error. Large gap = overfitting. Both should be minimized for a good model.
+Answer:
+train_error - test_error. Large gap = overfitting; minimize both for good generalization.
+
+Question:
+What does the Adam optimizer's epsilon parameter prevent?
+Reasoning:
+Adam divides by sqrt(v) + epsilon where v is the second moment estimate. Epsilon prevents division by zero when gradients are very small.
+Answer:
+Prevents division by zero in parameter update when gradient second moment is near zero.
+
+Question:
+What is the purpose of a learning rate warmup?
+Reasoning:
+Warmup gradually increases the learning rate from 0 to the target value at the start of training. Prevents unstable updates when model weights are random and gradients are large.
+Answer:
+Gradually ramps up LR from 0; prevents large unstable updates at the start of training.
+
