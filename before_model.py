@@ -1,5 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+import json
 model_name="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 val_data=r"/home/sarthak/Desktop/work/ml_code/1b-model/val.jsonl"
 tokenizer=AutoTokenizer.from_pretrained(model_name)
@@ -28,19 +29,18 @@ def extract_answer(text):
     return text.strip()
 correct = 0
 
-for sample in val_data:
-
-    prompt = get_text(sample)
-
-    output = generate(prompt)
-
-    predicted = extract_answer(output)
-
-    expected = extract_answer(sample["text"])
-
-    if predicted == expected:
-        correct += 1
-
+with open(val_data,"r",encoding="utf-8") as f:
+    for line in f:
+     sample=json.loads(line)
+     prompt = get_text(sample)
+     output = generate(prompt)
+     predicted = extract_answer(output)
+     print("output  of model")
+     print(predicted)
+     expected = extract_answer(sample["text"])
+     print("actual output")
+     print(expected)
+     if predicted == expected:
+        correct += 1    
 accuracy = correct / len(val_data)
-
 print("Baseline accuracy:", accuracy)
