@@ -1,46 +1,107 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from sentence_transformers import SentenceTransformer, util
 import torch
 import json
-model_name="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-val_data=r"/home/sarthak/Desktop/work/ml_code/1b-model/val.jsonl"
-tokenizer=AutoTokenizer.from_pretrained(model_name)
-model=AutoModelForCausalLM.from_pretrained(
-    pretrained_model_name_or_path=model_name,
+import re
+
+model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+val_path = "/home/sarthak/Desktop/work/ml_code/1b-model/val.jsonl"
+
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_name,
     torch_dtype=torch.float16,
     device_map="auto"
 )
+
+embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+
 def get_text(sample):
-    text=sample["text"]
-    question=text.split("<|assistant|>")[0]
-    return question
+    text = sample["text"]
+    if "<|assistant|>" in text:
+        return text.split("<|assistant|>")[0]
+    return text
+
 def generate(prompt):
-    inputs=tokenizer(prompt,return_tensors="pt").to(model.device)
+    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+
     outputs = model.generate(
         **inputs,
-        max_new_tokens=200,
+        max_new_tokens=250,
+        do_sample=False,
         temperature=0
     )
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
-def extract_answer(text):
 
-    if "Answer:" in text:
-        return text.split("Answer:")[-1].strip()
+    new_tokens = outputs[0][inputs["input_ids"].shape[-1]:]
+
+    return tokenizer.decode(new_tokens, skip_special_tokens=True)
+
+def extract_answer(text):
+    match = re.search(r"answer\s*:\s*(.*)", text, re.IGNORECASE)
+
+    if match:
+        answer = match.group(1).strip()
+        return answer
 
     return text.strip()
-correct = 0
 
-with open(val_data,"r",encoding="utf-8") as f:
+def normalize(text):
+    text = text.lower()
+    text = re.sub(r"\s+", " ", text)
+    text = text.strip()
+    return text
+
+def contains_match(pred, gold):
+    return normalize(gold) in normalize(pred)
+
+def semantic_match(pred, gold, threshold=0.60):
+
+    emb1 = embed_model.encode(pred, convert_to_tensor=True)
+    emb2 = embed_model.encode(gold, convert_to_tensor=True)
+
+    score = util.cos_sim(emb1, emb2).item()
+
+    return score >= threshold, score
+
+exact_correct = 0
+semantic_correct = 0
+total = 0
+
+with open(val_path, "r") as f:
     for line in f:
-     sample=json.loads(line)
-     prompt = get_text(sample)
-     output = generate(prompt)
-     predicted = extract_answer(output)
-     print("output  of model")
-     print(predicted)
-     expected = extract_answer(sample["text"])
-     print("actual output")
-     print(expected)
-     if predicted == expected:
-        correct += 1    
-accuracy = correct / len(val_data)
-print("Baseline accuracy:", accuracy)
+
+        sample = json.loads(line)
+
+        prompt = get_text(sample)
+
+        output = generate(prompt)
+
+        predicted = extract_answer(output)
+        expected = extract_answer(sample["text"])
+
+        pred = normalize(predicted)
+        gold = normalize(expected)
+
+        if pred == gold or contains_match(predicted, expected):
+            exact_correct += 1
+            semantic_correct += 1
+        else:
+            sem_ok, score = semantic_match(predicted, expected)
+
+            if sem_ok:
+                semantic_correct += 1
+            else:
+                print("QUESTION:", prompt)
+                print("EXPECTED:", expected)
+                print("PREDICTED:", predicted)
+                print("SIMILARITY:", score)
+                print("-"*40)
+
+        total += 1
+
+exact_accuracy = exact_correct / total
+semantic_accuracy = semantic_correct / total
+
+print("Exact Accuracy:", exact_accuracy)
+print("Semantic Accuracy:", semantic_accuracy)
