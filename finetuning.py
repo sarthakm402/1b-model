@@ -7,7 +7,7 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training, Pe
 from sentence_transformers import SentenceTransformer, util
  
 train_path = "/home/sarthak/Desktop/work/ml_code/1b-model/train.jsonl"
-val_path = "/home/sarthak/Desktop/work/ml_code/1b-model/val.jsonl"
+val_path = "/home/sarthak/Desktop/work/ml_code/1b-model/val.jsonl" 
 model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 train_dataset = load_dataset("json", data_files={"train": train_path})["train"]
