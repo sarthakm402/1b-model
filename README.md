@@ -2,7 +2,7 @@
 
 A lightweight, efficient fine-tuning pipeline for building a **code + ML reasoning model** that runs under **4GB VRAM**, using **LoRA-based parameter-efficient training** and a structured evaluation harness.
 
-This project focuses on making **small models actually useful**, not just training large ones.
+This project focuses on making **small models actually useful**, not just training large ones. 
 
 ---
 
